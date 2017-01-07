@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-tabs">
+    <h3><strong>主机详情页</strong></h3>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="text text-primary"><b>主机信息</b></span>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div class="text-left">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td class="text-navy">主机名</td>
+                                    <td>{{ host_obj.hostname }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">资产编号</td>
+                                    <td>{{ host_obj.number }} </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">IP</td>
+                                    <td>{% for i in host_obj.nic.all %} {{ i.ipaddress }} {% endfor %} </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">MAC</td>
+                                    <td>{% for i in host_obj.nic.all %} {{ i.macaddress }} {% endfor %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">子网掩码</td>
+                                    <td>{% for i in host_obj.nic.all %} {{ i.netmask }} {% endfor %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">远控控制卡</td>
+                                    <td>{{ host_obj.management_ip }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">所属业务线</td>
+                                    <td>
+                                        {% for i in host_obj.businessunit.all %}
+                                            <span class="btn-xs btn-info">{{ i.name }}</span>
+                                         {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">服务</td>
+                                    <td>
+                                        {% for i in host_obj.service.all %}
+                                            <span class="btn-xs btn-primary">{{ i.name }}</span>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">SN</td>
+                                    <td>{{ host_obj.sn }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">快速服务编码</td>
+                                    <td>{{ host_obj.qs }} </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">设备名称</td>
+                                    <td>{{ host_obj.get_asset_name_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">主机类型</td>
+                                    {% if host_obj.is_virtual %}
+                                        <td>虚拟机</td>
+                                    {% else %}
+                                        <td>物理机</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">IDC</td>
+                                    <td>{{ host_obj.idc.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">机柜信息</td>
+                                    <td>{{ host_obj.cabinet }} | {{ host_obj.host_cabinet_id }} U</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">制造厂商</td>
+                                    <td>{{ host_obj.manufactory.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">CPU</td>
+                                    <td>{{ host_obj.cpu.model}} {{ host_obj.cpu.cpu_core_count }} * {{ host_obj.cpu.cpu_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">内存</td>
+                                    <td>{% for i in host_obj.ram.all %} {% if forloop.last %} {{ i.capacity }} * {{ forloop.counter }} {% endif %}{% endfor %}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">硬盘</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">RAID</td>
+                                    <td> {{ host_obj.get_raid_type_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">机器状态</td>
+                                    <td class="">
+                                        {% if host_obj.status == 0 %}
+                                            <span class="btn-xs btn-success">{{ host_obj.get_status_display }}</span>
+                                        {% else %}
+                                            <span class="btn-xs btn-danger">{{ host_obj.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">操作系统</td>
+                                    <td>{{ host_obj.os_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">购买日期</td>
+                                    <td>{{ host_obj.buy_date|date:'Y-m-d' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">资产管理员</td>
+                                    <td>{{ host_obj.admin }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-navy">备注</td>
+                                    <td>{{ host_obj.memo }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
