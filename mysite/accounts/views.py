@@ -18,6 +18,8 @@ def create_code(request):
 
 
 def user_login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/assets/index/')
     if request.method == "POST":
         rep = BaseResponse()
         form = forms.LoginForm(request.POST)
