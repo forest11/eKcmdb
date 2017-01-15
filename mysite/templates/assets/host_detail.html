@@ -53,14 +53,6 @@
                                     <td>{{ host_obj.management_ip }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-navy">所属业务线</td>
-                                    <td>
-                                        {% for i in host_obj.businessunit.all %}
-                                            <span class="btn-xs btn-info">{{ i.name }}</span>
-                                         {% endfor %}
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td class="text-navy">服务</td>
                                     <td>
                                         {% for i in host_obj.service.all %}

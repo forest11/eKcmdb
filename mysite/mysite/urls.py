@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^assets/', include('assets.urls')),
     url(r'^autoops/', include('autoops.urls')),
     url(r'^monitor/', include('monitor.urls')),
+    url(r'^common/', include('common.urls')),
 ]

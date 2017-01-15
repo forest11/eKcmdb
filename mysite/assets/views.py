@@ -31,13 +31,13 @@ def host_list(request):
 def select_q(request):
     q = {}
     query_dict = request.GET
-    print(query_dict)
     for i in query_dict:
         if query_dict[i]:
             q[i] = query_dict[i]
     return q
 
 
+@login_required
 def iframe_host_list(request):
     hosts_physical = models.Host.objects.filter(is_virtual=False).count()
     hosts_virtual = models.Host.objects.filter(is_virtual=True).count()
@@ -58,11 +58,13 @@ def iframe_host_list(request):
 
 @login_required
 def host_add(request):
-    device_types = models.Host.device_type_choices
-    status = models.Host.status_choices
-    idcs = models.IDC.objects.all()
-    manufactories = models.Manufactory.objects.all()
-    if request.method == 'POST':
+    if request.method == 'GET':
+        device_types = models.Host.device_type_choices
+        status = models.Host.status_choices
+        idcs = models.IDC.objects.all()
+        manufactories = models.Manufactory.objects.all()
+        return render(request, 'assets/host_add.html', locals())
+    elif request.method == 'POST':
         rep = BaseResponse()
         form = forms.HostAdd(request.POST)
         if form.is_valid():
@@ -92,7 +94,6 @@ def host_add(request):
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)
         return HttpResponse(json.dumps(rep.__dict__))
-    return render(request, 'assets/host_add.html', locals())
 
 
 @login_required
