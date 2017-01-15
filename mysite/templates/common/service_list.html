@@ -27,15 +27,15 @@
                                         <td class="text-center"> {{ item.name }} </td>
                                         <td class="text-center">
                                             {% for i in item.host.all %}
-                                                <span class="btn-xs btn-default">{{ i.hostname }}</span>
+                                                <span class="btn-xs btn-default" value="{{ i.id }}">{{ i.hostname }}</span>
                                             {% endfor %}
                                         </td>
                                         <td class="text-center">
                                             <span class="btn-xs btn-danger">{{ item.port }}</span>
                                         </td>
                                         <td class="text-center"> {{ item.memo }} </td>
-                                        <td>
-                                            <a href="/common/service_edit/?id={{ item.id }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-xs btn-info" onclick="ChangeSer({{ item.id }});">修改</button>
                                         </td>
                                     </tr>
                                 {% endfor %}

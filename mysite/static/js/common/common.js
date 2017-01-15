@@ -58,5 +58,9 @@ var AddService = function() {
     })
 };
 
+function ChangeBus(id) {
+    console.log(id);
+};
+
 AddBusiness();
 AddService();

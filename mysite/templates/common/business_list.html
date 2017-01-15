@@ -31,7 +31,7 @@
                                         </td>
                                         <td class="text-center"> {{ item.memo }} </td>
                                         <td class="text-center">
-                                            <a href="/common/business_edit/?id={{ item.id }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
+                                            <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal" onclick="ChangeBus({{ item.id }});">修改</button>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -43,4 +43,28 @@
         </div>
     </div>
 </div>
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                </button>
+                <div class="modal-body">
+                    <p><strong>H+</strong>
+                        暂时实现
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/common/common.js"></script>
 {% endblock %}
