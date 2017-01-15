@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^index/', views.index, name='index'),
     url(r'^dashboard/', views.dashboard, name='dashboard'),
     url(r'^host_list/', views.host_list, name='host_list'),
+    url(r'^iframe_host_list/', views.iframe_host_list, name='iframe_host_list'),
     url(r'^host_detail/', views.host_detail, name='host_detail'),
     url(r'^host_add/', views.host_add, name='host_add'),
     url(r'^host_edit/', views.host_edit, name='host_edit'),

@@ -81,22 +81,14 @@ var EditHost = function () {
     })
 };
 
-function change_info() {
-    var data = {};
-    $("select").each(function(){
-        data[$(this).attr('name')]=$(this).val();
-    });
-    console.log(data);
-
-    $.ajax({
-        url: '/assets/host_list/',
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function (data) {
-            console(data);
-        }
-    });
+function change_info(ths) {
+    var data = $(ths).attr("name") + "=" + $(ths).val();
+    var IframeUrl = $("#ifrID").attr("src");
+    if(IframeUrl.endsWith("iframe_host_list/")){
+        document.getElementById('ifrID').src=IframeUrl + "search?" + data;
+    }else{
+        document.getElementById('ifrID').src=IframeUrl + "&" + data;
+    }
 }
 AddHost();
 EditHost();

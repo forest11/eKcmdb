@@ -6,11 +6,11 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 
-def email(email_list, content, subject="马可波罗运维平台-找回密码"):
+def email(email_list, content, subject="易建科技运维平台-找回密码"):
     msg = MIMEText(content, 'plain', 'utf-8')
-    msg['From'] = formataddr(["马可波罗运维平台-系统邮件", 'pandonglin@makepolo.com'])
+    msg['From'] = formataddr(["易建科技运维平台-系统邮件", 'pandonglin@makepolo.com'])
     msg['Subject'] = subject
     server = smtplib.SMTP("smtp.makepolo.com", 25)
-    server.login("pandonglin@makepolo.com", "password")
+    server.login("pandonglin@makepolo.com", "Python-147")
     server.sendmail('pandonglin@makepolo.com', email_list, msg.as_string())
     server.quit()

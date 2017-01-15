@@ -19,32 +19,32 @@ def dashboard(request):
     return render(request, 'common/dashboard.html', locals())
 
 
+@login_required
+def host_list(request):
+    idcs = models.IDC.objects.all()
+    business_units = models.BusinessUnit.objects.all()
+    services = models.Service.objects.all()
+    status = models.Host.status_choices
+    return render(request, 'assets/host_list.html', locals())
+
+
 def select_q(request):
     q = {}
-    query_dict = request.POST
+    query_dict = request.GET
+    print(query_dict)
     for i in query_dict:
         if query_dict[i]:
             q[i] = query_dict[i]
     return q
 
 
-@login_required
-def host_list(request):
-    hosts_physical = models.Host.objects.filter(is_virtual=False).count
-    hosts_virtual = models.Host.objects.filter(is_virtual=True).count
-    idcs = models.IDC.objects.all()
-    business_units = models.BusinessUnit.objects.all()
-    services = models.Service.objects.all()
-    device_types = models.Host.device_type_choices
+def iframe_host_list(request):
+    hosts_physical = models.Host.objects.filter(is_virtual=False).count()
+    hosts_virtual = models.Host.objects.filter(is_virtual=True).count()
     status = models.Host.status_choices
-    if request.method == 'POST':
-        q = select_q(request)
-        hosts = models.Host.objects.filter(**q)
-        hosts_count = hosts.count()
-        print(hosts)
-    else:
-        hosts = models.Host.objects.all()
-        hosts_count = hosts.count()
+    q = select_q(request)
+    hosts = models.Host.objects.filter(**q)
+    hosts_count = hosts.count()
     paginator = Paginator(hosts, 5)
     page = request.GET.get('page')
     try:
@@ -53,7 +53,7 @@ def host_list(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
-    return render(request, 'assets/host_list.html', locals())
+    return render(request, 'assets/iframe_host_list.html', locals())
 
 
 @login_required
