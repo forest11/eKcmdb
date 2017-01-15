@@ -23,7 +23,7 @@
                             </thead>
                             <tbody>
                                 {% for item in page_obj %}
-                                    <tr class="gradeX">
+                                    <tr class="gradeX" id="{{ item.id }}">
                                         <td class="text-center"> {{ item.name }} </td>
                                         <td class="text-center">
                                             {% for i in item.host.all %}
@@ -35,16 +35,26 @@
                                         </td>
                                         <td class="text-center"> {{ item.memo }} </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-xs btn-info" onclick="ChangeSer({{ item.id }});">修改</button>
+                                            <button type="button" class="btn btn-xs btn-info" onclick="ChangeSer(this);">修改</button>
+                                            <button type="button" class="btn btn-xs btn-warning" onclick="DelSer(this);">删除</button>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-6">
+                                <span id="msg-error" class="msg-error"></span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/common/common.js"></script>
 {% endblock %}

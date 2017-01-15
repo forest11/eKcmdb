@@ -43,6 +43,16 @@ def business_add(request):
 
 
 @login_required
+def business_del(request):
+    if request.method == 'POST':
+        business_id = request.POST.get('id')
+        del_business = models.BusinessUnit.objects.filter(id=business_id).delete()
+        if del_business:
+            return HttpResponse(204)
+    return HttpResponse(500)
+
+
+@login_required
 def service_list(request):
     service_obj = models.Service.objects.all()
     paginator = Paginator(service_obj, 10)
@@ -75,3 +85,12 @@ def service_add(request):
             rep.message = json.loads(error_dict)
         return HttpResponse(json.dumps(rep.__dict__))
 
+
+@login_required
+def service_del(request):
+    if request.method == 'POST':
+        service_id = request.POST.get('id')
+        del_service = models.Service.objects.filter(id=service_id).delete()
+        if del_service:
+            return HttpResponse(204)
+    return HttpResponse(500)
