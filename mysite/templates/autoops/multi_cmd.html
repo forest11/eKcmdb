@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+     #bind_host_list ul{
+        list-style:none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-tabs">
+    <h3><strong>批量命令页</strong></h3>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="panel col-md-3" style="border-right:1px dashed lightgray ">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h3 class="panel-title">主机列表
+                        <span id="selected_host_count" class="badge badge-primary">0</span>
+                    </h3>
+                </div>
+                <div id="bind_host_list" class="list-group">
+                    <div type="button" class="btn btn-info col-lg-10" onclick="ToggleHostList(this)">
+                        <span class="badge badge-success">{{ request.user.bindhost_set.count }}</span>
+                        未分组主机
+                    </div>
+                    <ul class="hidden col-lg-12">
+                        {% for bind_host in  request.user.bindhost_set.select_related  %}
+                            <li>
+                                <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
+                                {{ bind_host.host.hostname }}({{ bind_host.remote_user.username }})
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% for host_group in request.user.hostgroups_set.select_related %}
+                        <div type="button" class="btn btn-success col-lg-10" onclick="ToggleHostList(this)" style="margin-top: 5px;">
+                            <span class="badge badge-success">{{ host_group.bind_hosts.select_related.count }}</span>
+                            {{ host_group.name }}
+                        </div>
+                        <ul class="hidden col-lg-12">
+                            {% for bind_host in host_group.bind_hosts.select_related %}
+                                <li>
+                                    <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
+                                    {{ bind_host.host.hostname }}({{ bind_host.remote_user.username }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="panel col-md-8">
+            <div class="panel-heading">
+                <h3 class="panel-title">命令执行
+                </h3>
+            </div>
+            <div class="panel-body">
+             <textarea id="cmd" placeholder="Message" rows="3" class="form-control"></textarea>
+                {% csrf_token %}
+                <button  style="margin-top: 10px" onclick="PostTask()" class="btn btn-primary pull-right">执行</button>
+             <div id="task_result">
+             </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %} <!--only use for sub page extra js-->
+<script>
+    function ToggleHostList(ele) {
+        $(ele).next().toggleClass("hidden");
+    }
+
+    function  AddCounter(ele) {
+        //$("#selected_host_count")
+        //console.log( $(ele).prop("checked") );
+        var current_counter = parseInt($("#selected_host_count").text());
+        if ($(ele).prop("checked") == true){
+            //之前没选
+            $("#selected_host_count").html( current_counter+1);
+        }else {
+            $("#selected_host_count").html( current_counter-1);
+        }
+    }
+
+    function  GetTaskResult(task_id) {
+        $('#task_result').text('');
+        $.getJSON("{% url 'get_task_result' %}",{'task_id':task_id},function(callback){
+            //console.log(callback);
+            $.each(callback,function (index,ele) {
+                var single_res = "";
+                single_res += "<h4>Hostname:" + ele.bind_host__host__hostname +"---------- status:" + ele.result +"</h4>";
+                single_res += "<pre> " + ele.event_log + "</pre>";
+                $("#task_result").append(single_res);
+            });//end each
+        })
+    }
+
+    function  PostTask() {
+        var selected_hosts_eles = $("#bind_host_list input:checked");
+        var selected_bind_hosts =[];
+        $.each(selected_hosts_eles,function (index,ele) {
+            selected_bind_hosts.push(ele.value);
+        });
+        if (selected_bind_hosts.length ==0){
+            alert("no host selected....");
+            return;
+        }
+        var cmd = $("#cmd").val().trim();
+        if (cmd.length ==0){
+            alert("no cmd input....");
+            return;
+        }
+
+        var task_data= {
+            'action': 0,
+            'cmd': cmd,
+            'selected_bind_hosts': selected_bind_hosts,
+{#            'csrfmiddlewaretoken':GetCsrfToken()#}
+        };
+        //console.log(task_data);
+
+        $.post("{% url 'task_center' %}",
+                $.param(task_data,true),
+                function(data){
+                     var callbackdata = JSON.parse(data);
+                    //console.log("callback:" + callbackdata);
+                     if (callbackdata.task_id){
+                         GetTaskResult(callbackdata.task_id);
+                     }else{
+                         var single_res = "";
+                         single_res += "<pre> " + callbackdata.errors + "</pre>";
+                         $("#task_result").append(single_res);
+                     }
+                }
+         );//end post
+    }
+</script>
+
+{% endblock %}

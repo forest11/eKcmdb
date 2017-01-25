@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="content-tabs">
+    <h3><strong>添加用户页</strong></h3>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal n-validator n-yellow" action="/accounts/user_add/" id="user_add" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="sn">Email</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="sn" maxlength="100" name="sn" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="number">姓名</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="number" maxlength="100" name="number" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="qs">用户密码</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="qs" maxlength="100" name="qs" type="text">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">角色</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">电话</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">座机</label>
+                            <div class=" col-sm-4 col-lg-4">
+                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="msg-error col-sm-offset-3"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-5">
+                                <button class="btn btn-primary" type="button" id="submit_user_add">确定</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
