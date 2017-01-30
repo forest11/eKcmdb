@@ -29,8 +29,8 @@ var AddHost = function() {
             success: function(data){
                 $('.msg-error').remove();
                 if(data.status){
-                    var tag = '<div class="col-sm-4 col-sm-offset-5"><span class="msg-error">添加成功</span></div>';
-                    $('#submit_host_add').parent().parent().append(tag);
+                    var tag = '<div class="col-sm-offset-4"><div class="msg-error">添加成功</div></div>';
+                    $('form').append(tag);
                 }else{
                     $.each(data.message, function (k, v) {
                         var tag = '<span class="msg-error">'+v[0].message+'</span>';
@@ -44,7 +44,8 @@ var AddHost = function() {
 
 var EditHost = function () {
     $("#submit_host_edit").on("click", function(){
-        var data = {"id": 1};
+        var data = {};
+        var host_id = $("form").attr("id");
         $("form input:text").each(function(){
             data[$(this).attr('name')]=$(this).val();
         });
@@ -59,16 +60,15 @@ var EditHost = function () {
         });
         console.log(data);
         $.ajax({
-            url: '/assets/host_edit/',
+            url: '/assets/host_edit/' + host_id +'/',
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function(data){
-                console.log(data);
                 $('.msg-error').remove();
                 if(data.status){
-                    var tag = '<div class="col-sm-4 col-sm-offset-5"><span class="msg-error">修改成功</span></div>';
-                    $('#submit_host_edit').parent().parent().append(tag);
+                    var tag = '<div class="col-sm-offset-4"><div class="msg-error">修改成功</div></div>';
+                    $('form').append(tag);
                 }else {
                     $.each(data.message, function (k, v) {
                        // console.log(v[0].message);

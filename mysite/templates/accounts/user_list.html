@@ -44,7 +44,7 @@
                                                     <tr class="gradeX">
                                                         <td class="text-center"> {{ item.email }} </td>
                                                         <td class="text-center"> {{ item.name }} </td>
-                                                        <td class="text-center"> {{ item.tel }} </td>
+                                                        <td class="text-center"> {{ item.mobile }} </td>
                                                         <td class="text-center"> {% for i in item.role.all %} {{ i.name }}, {% endfor %}</td>
                                                         <td class="text-center">
                                                             {% if item.is_active %}
@@ -54,8 +54,12 @@
                                                             {% endif %}
                                                         </td>
                                                         <td class="text-center">
-                                                            <a href="/accounts/user_update/?id={{ item.id }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
-                                                            <button type="button" id="{{ item.id }}" class="btn btn-xs btn-danger node-edit" onclick="DelUser(this);">删除</button>
+                                                            {% if item.is_admin %}
+                                                                超级管理员
+                                                            {% else %}
+                                                                <a href="/accounts/user_update/{{ item.id }}/" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
+                                                                <button type="button" id="{{ item.id }}" class="btn btn-xs btn-danger node-edit" onclick="DelUser(this);">删除</button>
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}
@@ -84,5 +88,5 @@
 {% endblock %}
 
 {% block js %}
-    <script src="/static/js/accounts/login.js"></script>
+    <script src="/static/js/accounts/userjs.js"></script>
 {% endblock %}

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load utils %}
+
 {% block content %}
 <div class="content-tabs">
     <h3><strong>主机详情页</strong></h3>
@@ -9,19 +11,6 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="text text-primary"><b>主机信息</b></span>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
                 </div>
                 <div class="ibox-content">
                     <div>
@@ -49,8 +38,8 @@
                                     <td>{% for i in host_obj.nic.all %} {{ i.netmask }} {% endfor %}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-navy">远控控制卡</td>
-                                    <td>{{ host_obj.management_ip }}</td>
+                                    <td class="text-navy">远程管理IP</td>
+                                    <td>{{ host_obj.management_ip|make_null }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-navy">运行服务</td>
@@ -65,7 +54,7 @@
                                     <td>{{ host_obj.sn }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-navy">快速服务编码</td>
+                                    <td class="text-navy">快速服务代码</td>
                                     <td>{{ host_obj.qs }} </td>
                                 </tr>
                                 <tr>
@@ -128,7 +117,7 @@
                                 </tr>
                                 <tr>
                                     <td class="text-navy">资产管理员</td>
-                                    <td>{{ host_obj.admin }}</td>
+                                    <td>{{ host_obj.admin|make_null }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-navy">备注</td>

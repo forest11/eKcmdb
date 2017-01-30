@@ -63,8 +63,8 @@
                                         </td>
                                         <td class="text-center"> {{ item.manufactory.name }} </td>
                                         <td class="text-center">
-                                            <a href="/assets/host_detail/?id={{ item.id }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="bottom" target="_blank">详情</a>
-                                            <a href="/assets/host_edit/?id={{ item.id }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
+                                            <a href="/assets/host_detail/{{ item.id }}/" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="bottom" target="_blank">详情</a>
+                                            <a href="/assets/host_edit/{{ item.id }}/" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" target="_blank">修改</a>
                                             <button type="button" id="{{ item.id }}" class="btn btn-xs btn-danger node-edit" onclick="DelAssets(this);">删除</button>
                                             <button type="button" id="{{ item.id }}" class="btn btn-xs btn-success" onclick="UpdateAssets(this);">更新</button>
                                         </td>

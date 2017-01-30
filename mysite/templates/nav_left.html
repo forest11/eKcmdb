@@ -11,23 +11,44 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        <li class="host_manage">
+        <li>
             <a href="/accounts/show_message/">show message</a>
         </li>
         <li>
             <a href="/accounts/change_pwd/">修改密码</a>
         </li>
         <li>
-            <a href="/accounts/user_list/">用户中心</a>
+            <a href="#">用户中心<span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+                <li class="user_list">
+                    <a href="/accounts/user_list/">用户列表</a>
+                </li>
+                <li class="user_add">
+                    <a href="/accounts/user_add/">添加用户</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="/accounts/user_add/">添加用户</a>
+            <a href="#">角色管理<span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+                <li class="role_list">
+                    <a href="/accounts/role_list/">角色列表</a>
+                </li>
+                <li class="role_add">
+                    <a href="/accounts/role_add/">添加角色</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="/accounts/role_list/">角色列表</a>
-        </li>
-        <li>
-            <a href="/accounts/permission_list/">权限列表</a>
+            <a href="#">权限中心<span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+                <li class="permission_list">
+                    <a href="/accounts/permission_list/">权限列表</a>
+                </li>
+                <li class="permission_add">
+                    <a href="/accounts/permission_add/">添加权限</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </li>
@@ -38,7 +59,7 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        <li class="host_manage">
+        <li>
             <a href="#">服务器管理<span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
                 <li class="host_list">
@@ -67,16 +88,16 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        <li class="host_manage">
+        <li>
             <a href="/common/business_list/">业务线列表</a>
         </li>
-        <li class="host_manage">
+        <li>
             <a href="/common/business_add/">添加业务线</a>
         </li>
         <li>
             <a href="/common/service_list/">服务列表</a>
         </li>
-        <li class="host_manage">
+        <li>
             <a href="/common/service_add/">添加服务</a>
         </li>
     </ul>
@@ -88,7 +109,7 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        <li class="host_manage">
+        <li>
             <a href="/monitor/product-detail/">url监控</a>
         </li>
     </ul>
@@ -100,7 +121,7 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        <li class="host_manage">
+        <li>
             <a href="/autoops/multi_cmd/">批量命令</a>
         </li>
     </ul>

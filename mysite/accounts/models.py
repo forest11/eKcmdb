@@ -56,9 +56,8 @@ class UserProfile(AbstractBaseUser):
     user_key = models.CharField(max_length=100, default=RandomCode.random_code(100), verbose_name='用户key')
     department = models.CharField(max_length=32, blank=True, null=True, verbose_name='部门')
     tel = models.CharField(max_length=32, blank=True, null=True, verbose_name='座机')
-    mobile = models.CharField(max_length=32, blank=True, null=True,  verbose_name='手机')
+    mobile = models.CharField(max_length=32, blank=True, null=True, verbose_name='手机')
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
-    role = models.ManyToManyField('Role')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
@@ -85,7 +84,7 @@ class UserProfile(AbstractBaseUser):
         return self.is_admin
 
     class Meta:
-        verbose_name = '用户信息'
+        verbose_name = '用户'
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -94,7 +93,6 @@ class UserProfile(AbstractBaseUser):
 
 class Role(models.Model):
     name = models.CharField(max_length=32, verbose_name="角色名")
-    perm = models.ManyToManyField("Permission")
 
     class Meta:
         verbose_name = "角色"
@@ -104,13 +102,40 @@ class Role(models.Model):
         return self.name
 
 
-class Permission(models.Model):
-    url = models.CharField(max_length=255, verbose_name="url")
-    memo = models.CharField(max_length=255, verbose_name="备注")
+class UserToRole(models.Model):
+    user_id = models.ForeignKey('UserProfile', to_field="id")
+    role_id = models.ForeignKey('Role', to_field="id")
 
     class Meta:
-        verbose_name = "url权限"
+        verbose_name = "用户与角色关联"
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.memo
+        return "%s-%s" % (self.user_id.name, self.role_id.name)
+
+
+class Permission(models.Model):
+    caption = models.CharField(max_length=32, verbose_name="权限描述")
+    parent_id = models.ForeignKey('self', related_name="p", to_field="id", null=True, blank=True)
+    code = models.CharField(max_length=64, null=True, blank=True, verbose_name="url权限")
+    method = models.CharField(max_length=16, null=True, blank=True, verbose_name="请求方法")
+    kwargs = models.CharField(max_length=128, null=True, blank=True, verbose_name="其他参数")  #同一个url的同一个请求方法的put，del进行判断
+
+    class Meta:
+        verbose_name = "权限"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.caption
+
+
+class RoleToPermission(models.Model):
+    perm_id = models.ForeignKey('Permission', to_field="id")
+    role_id = models.ForeignKey('Role', to_field="id")
+
+    class Meta:
+        verbose_name = "角色与权限关联"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return "%s-%s" % (self.role_id.name, self.perm_id.caption)

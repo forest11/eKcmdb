@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load utils %}
 
 {% block css %}
     <style>
@@ -19,33 +20,33 @@
                     <span class="text text-primary"><b>修改主机信息</b></span>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal n-validator n-yellow" action="/assets/host_edit/" id="host_edit" method="post">
+                    <form class="form-horizontal n-validator n-yellow" id="{{ host_obj.id }}" method="post">
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="sn">Sn</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="sn" maxlength="100" name="sn" type="text" value="{{ host_obj.sn }}" readonly>
+                            <label class="control-label col-sm-2" for="sn">Sn</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="sn" name="sn" type="text" value="{{ host_obj.sn }}" readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="number">资产编码</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="number" maxlength="100" name="number" type="text" value="{{ host_obj.number }}">
+                            <label class="control-label col-sm-2" for="number">资产编码</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="number" name="number" type="text" value="{{ host_obj.number }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="qs">快速服务代码</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="qs" maxlength="100" name="qs" type="text" value="{{ host_obj.qs }}">
+                            <label class="control-label col-sm-2" for="qs">快速服务代码</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="qs" name="qs" type="text" value="{{ host_obj.qs }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">主机名</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text" value="{{ host_obj.hostname }}">
+                            <label class="control-label col-sm-2" for="hostname">主机名</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="hostname" name="hostname" type="text" value="{{ host_obj.hostname }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="asset_name">设备名称</label>
+                            <label class="control-label col-sm-2" for="asset_name">设备名称</label>
                             <div class=" col-sm-3 col-lg-3">
                                 <select class=" form-control" id="asset_name" name="asset_name">
                                     {% for item in device_types %}
@@ -59,7 +60,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="os_type">操作系统</label>
+                            <label class="control-label col-sm-2" for="os_type">操作系统</label>
                             <div class=" col-sm-3 col-lg-3">
                                 <select class=" form-control" id="os_type" name="os_type">
                                     {% for item in os_types %}
@@ -73,7 +74,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="manufactory">制造商</label>
+                            <label class="control-label col-sm-2" for="manufactory">制造商</label>
                             <div class=" col-sm-3 col-lg-3">
                                 <select class=" form-control" id="manufactory" name="manufactory">
                                     {% for item in manufactories %}
@@ -87,7 +88,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="raid_type">RAID类型</label>
+                            <label class="control-label col-sm-2" for="raid_type">RAID类型</label>
                             <div class=" col-sm-2 col-lg-2">
                                 <select class=" form-control" id="raid_type" name="raid_type">
                                     {% for item in raid_types %}
@@ -101,14 +102,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="management_ip">管理IP</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="management_ip" maxlength="100" name="management_ip" type="text" value="{{ host_obj.management_ip }}">
+                            <label class="control-label col-sm-2" for="management_ip">管理IP</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="management_ip" name="management_ip" type="text" value="{{ host_obj.management_ip|make_null }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="idc">IDC机房</label>
-                            <div class=" col-sm-4 col-lg-4">
+                            <label class="control-label col-sm-2" for="idc">IDC机房</label>
+                            <div class=" col-sm-4">
                                 <select class=" form-control" id="idc" name="idc">
                                     {% for item in idcs %}
                                         {% if host_obj.idc == item %}
@@ -121,19 +122,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="cabinet">机柜号</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="cabinet" maxlength="100" name="cabinet" type="text" value="{{ host_obj.cabinet }}">
+                            <label class="control-label col-sm-2" for="cabinet">机柜号</label>
+                            <div class=" col-sm-2">
+                                <input class="form-control" id="cabinet" name="cabinet" type="text" value="{{ host_obj.cabinet }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="host_cabinet_id">机器位置</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="host_cabinet_id" maxlength="100" name="host_cabinet_id" type="text" value="{{ host_obj.host_cabinet_id }}">
+                            <label class="control-label col-sm-2" for="host_cabinet_id">机器位置</label>
+                            <div class=" col-sm-3">
+                                <input class="form-control" id="host_cabinet_id" name="host_cabinet_id" type="text" value="{{ host_obj.host_cabinet_id }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="status">设备状态</label>
+                            <label class="control-label col-sm-2" for="status">设备状态</label>
                             <div class=" col-sm-2 col-lg-2">
                                 <select class=" form-control" id="status" name="status">
                                     {% for item in status %}
@@ -147,8 +148,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="is_virtual">虚拟机</label>
-                            <div class=" col-sm-1 col-lg-1">
+                            <label class="control-label col-sm-2" for="is_virtual">虚拟机</label>
+                            <div class=" col-sm-1 col-lg-1" style="margin-top: 4px;">
                                 {% if host_obj.is_virtual %}
                                     <input id="is_virtual"  name="is_virtual" type="checkbox" checked="checked">
                                 {% else %}
@@ -157,31 +158,28 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="parent_host">宿主机</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="parent_host" maxlength="100" name="parent_host" type="text" value="{{ host_obj.parent_level.hostname }}">
+                            <label class="control-label col-sm-2" for="parent_host">宿主机</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="parent_host" name="parent_host" type="text" value="{{ host_obj.parent_level.hostname }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="admin">资产管理员</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="admin" maxlength="100" name="admin" type="text" value="{{ host_obj.admin }}">
+                            <label class="control-label col-sm-2" for="admin">资产管理员</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="admin" name="admin" type="text" value="{{ host_obj.admin|make_null }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="buy_date">购买时间</label>
-                            <div class=" col-sm-4 col-lg-4">
+                            <label class="control-label col-sm-2" for="buy_date">购买时间</label>
+                            <div class=" col-sm-4">
                                 <input class="datainp" id="buy_date" name="buy_date" type="text" readonly value="{{ host_obj.buy_date|date:'Y-m-d' }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="memo">备注</label>
-                            <div class=" col-sm-10 col-lg-10">
-                                <textarea class="form-control" id="memo" maxlength="100" name="memo"  value="{{ host_obj.memo }}"></textarea>
+                            <label class="control-label col-sm-2" for="memo">备注</label>
+                            <div class=" col-sm-8">
+                                <textarea class="form-control" id="memo" rows="5" name="memo" value="{{ host_obj.memo }}"></textarea>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-sm-4" id="msg"></span>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">

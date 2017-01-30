@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/12/8.
  */
-var Login = function() {
+$(function() {
     var handleLogin = function() {
         $("button").on("click", function(){
             var data = {
@@ -28,11 +28,11 @@ var Login = function() {
             handleLogin();
         }
     };
-}();
+});
 
 
 var SendMsg = function(){
-        $("#get_code").click(function(){
+        $("#get_code").on("click", function(){
             $('.msg-error').remove();
             var email = $("input[name='email']").val();
             if(email.trim().length == 0){
@@ -72,46 +72,5 @@ var SendMsg = function(){
         });
  };
 
-var ResetPwd = function () {
-    $('#resetpwd').click(function () {
-        $('.msg-error').remove();
 
-        $.ajax({
-            url: "/accounts/reset_pwd/",
-            type: "POST",
-            data: {
-                "new_password1": $("input[name='new_password1']").val(),
-                "new_password2": $("input[name='new_password2']").val()
-            },
-            dataType: 'json',
-            success: function (data) {
-                if(data.status){
-                    window.location.href = '/accounts/login/';
-                }else{
-                    $.each(data.message, function (k, v) {
-                        var tag = '<span class="msg-error">'+v[0].message+'</span>';
-                        $("#"+k).parent().append(tag);
-                    })
-                }
-            }
-        });
-    });
-};
-
-
-function DelUser(ths) {
-    $.ajax({
-        url: '/accounts/user_del/',
-        type: 'POST',
-        data: {"id": $(ths).attr("id")},
-        dataType: 'json',
-        success: function(data){
-            if(data==204){
-                $(ths).parent().parent().remove();
-            }else{
-                $('#msg-error').val("操作失败")
-            }
-        }
-    });
-}
 

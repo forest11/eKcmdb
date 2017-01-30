@@ -61,7 +61,7 @@ def business_add(request):
         form = forms.BusinessForm(request.POST)
         if form.is_valid():
             try:
-                # form.save()
+                form.save()
                 rep.status = True
             except Exception as e:
                 rep.message = {'msg': [{'message': str(e)}]}
@@ -126,10 +126,10 @@ def service_del(request):
 
 
 @login_required
-def service_update(request, id):
+def service_update(request, service_id):
+    service_obj = get_object_or_404(models.Service, id=service_id)
     if request.method == 'GET':
         hosts = models.Host.objects.all()
-        service_obj = get_object_or_404(models.Service, id=id)
         service_host = service_obj.host.all()
         return render(request, "common/service_update.html", locals())
     elif request.method == 'POST':
@@ -137,26 +137,28 @@ def service_update(request, id):
         form = forms.UpdateServiceForm(request.POST)
         if form.is_valid():
             rec_data = form.clean()
-            service = [x for x in rec_data["service"].split("-") if x]
-            try:
-                business_obj = models.BusinessUnit.objects.get(id=rec_data["id"])
-                old_service = business_obj.service.all().values_list("name", "port")
-                for item in service:
-                    name, port = item.split(":")
-                    if (name, port) not in old_service:  # 业务线新添加服务
-                        business_obj.service.add(models.Service.objects.get(name=name, port=port))
-                for item in old_service:
-                    if "%s:%s" % (item[0], item[1]) not in service:  # 业务线删除服务
-                        business_obj.service.remove(models.Service.objects.get(name=item[0], port=item[1]))
-                business_obj.memo = rec_data["memo"]
-                business_obj.save()
-                rep.status = True
-                rep.summary = {
-                    "service": service,
-                    "memo": rec_data["memo"]
-                }
-            except Exception as e:
-                rep.message = {'msg': [{'message': str(e)}]}
+            print(request.POST)
+            print("----", rec_data)
+            # service = [x for x in rec_data["service"].split("-") if x]
+            # try:
+            #     business_obj = models.BusinessUnit.objects.get(id=rec_data["id"])
+            #     old_service = business_obj.service.all().values_list("name", "port")
+            #     for item in service:
+            #         name, port = item.split(":")
+            #         if (name, port) not in old_service:  # 业务线新添加服务
+            #             business_obj.service.add(models.Service.objects.get(name=name, port=port))
+            #     for item in old_service:
+            #         if "%s:%s" % (item[0], item[1]) not in service:  # 业务线删除服务
+            #             business_obj.service.remove(models.Service.objects.get(name=item[0], port=item[1]))
+            #     business_obj.memo = rec_data["memo"]
+            #     business_obj.save()
+            #     rep.status = True
+            #     rep.summary = {
+            #         "service": service,
+            #         "memo": rec_data["memo"]
+            #     }
+            # except Exception as e:
+            #     rep.message = {'msg': [{'message': str(e)}]}
         else:
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)

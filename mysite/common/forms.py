@@ -38,4 +38,12 @@ class ServiceForm(forms.ModelForm):
 
 
 class UpdateServiceForm(forms.Form):
-    pass
+    class Meta:
+        model = models.Service
+        field = ("id", "port", "host", "name", "memo")
+
+    def clean_host(self):
+        host = self.cleaned_data.get('host')
+        if not host:
+            host = None
+        return host

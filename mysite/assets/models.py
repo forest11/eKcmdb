@@ -39,7 +39,7 @@ class Host(models.Model):
     status = models.SmallIntegerField(choices=status_choices, default=0, verbose_name="设备状态")
     is_virtual = models.BooleanField(default=False, verbose_name="虚拟机")
     parent_host = models.ForeignKey('self', related_name='parent_level', null=True, blank=True, verbose_name="宿主机")
-    admin = models.CharField(max_length=32, null=True, blank=True, verbose_name='资产管理员')
+    admin = models.CharField(max_length=32, default="", verbose_name='资产管理员')
     buy_date = models.DateField(null=True, blank=True, verbose_name="购买时间")
     create_date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name="创建时间")
     update_date = models.DateTimeField(blank=True, auto_now=True, verbose_name="最近修改时间")

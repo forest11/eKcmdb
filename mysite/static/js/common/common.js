@@ -1,12 +1,15 @@
 /**
  * Created by pandonglin on 2017/1/15.
  */
-var AddBusiness = function() {
+$(function() {
     $("#submit_business_add").on("click", function(){
-        var data = {};
-        data = {"name": $("#name").val(),
-                "service": "1",
-                "memo": $("#memo").val()};
+        var service = [];
+        $("#right_select option").each(function(){
+            service.push($(this).val());
+        });
+        var data = {"name": $("#name").val(),
+                    "service": service,
+                    "memo": $("#memo").val()};
         console.log(data);
         $.ajax({
             url: '/common/business_add/',
@@ -16,8 +19,8 @@ var AddBusiness = function() {
             success: function(data){
                 $('.msg-error').remove();
                 if(data.status){
-                    var tag = '<div class="col-sm-4 col-sm-offset-5"><span class="msg-error">添加成功</span></div>';
-                    $('#submit_business_add').parent().parent().append(tag);
+                    var tag = '<div class="col-sm-offset-4"><div class="msg-error">添加成功</div></div>';
+                    $('form').append(tag);
                 }else{
                     $.each(data.message, function (k, v) {
                         var tag = '<span class="msg-error">'+v[0].message+'</span>';
@@ -27,36 +30,7 @@ var AddBusiness = function() {
             }
         })
     })
-};
-
-var AddService = function() {
-    $("#submit_service_add").on("click", function(){
-        var data = {};
-        data = {"name": $("#name").val(),
-                "port": $("#port").val(),
-                "host": "1",
-                "memo": $("#memo").val()};
-        console.log(data);
-        $.ajax({
-            url: '/common/service_add/',
-            type: 'POST',
-            data: data,
-            dataType: 'json',
-            success: function(data){
-                $('.msg-error').remove();
-                if(data.status){
-                    var tag = '<div class="col-sm-4 col-sm-offset-5"><span class="msg-error">添加成功</span></div>';
-                    $('#submit_service_add').parent().parent().append(tag);
-                }else{
-                    $.each(data.message, function (k, v) {
-                        var tag = '<span class="msg-error">'+v[0].message+'</span>';
-                        $("#"+ k).parent().append(tag);
-                    })
-                }
-            }
-        })
-    })
-};
+});
 
 
 var ChangeBus = function (ths) {
@@ -85,7 +59,7 @@ function DelTag(ths) {
     $(ths).remove();
 }
 
-var BusinessSumbit = function () {
+$(function () {
     $("#change_submit").on("click", function () {
         var BusId = $(".modal-body").attr("change_id");
         var service = "";
@@ -126,7 +100,7 @@ var BusinessSumbit = function () {
             }
         })
     })
-};
+});
 
 
 function DelBus(ths) {
@@ -145,10 +119,37 @@ function DelBus(ths) {
     });
 }
 
-function ChangeSer(ths) {
-    $(ths).attr("data-target","#myModal");
-    console.log($(ths));
-}
+$(function() {
+    $("#submit_service_add").on("click", function(){
+        var host = [];
+        $("#right_select option").each(function(){
+            host.push($(this).val());
+        });
+        var data = {"name": $("#name").val(),
+                    "port": $("#port").val(),
+                    "host": host,
+                    "memo": $("#memo").val()};
+        console.log(data);
+        $.ajax({
+            url: '/common/service_add/',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                $('.msg-error').remove();
+                if(data.status){
+                    var tag = '<div class="col-sm-offset-4"><div class="msg-error">添加成功</div></div>';
+                    $('form').append(tag);
+                }else{
+                    $.each(data.message, function (k, v) {
+                        var tag = '<span class="msg-error">'+v[0].message+'</span>';
+                        $("#"+ k).parent().append(tag);
+                    })
+                }
+            }
+        })
+    })
+});
 
 
 function DelSer(ths) {
@@ -167,14 +168,52 @@ function DelSer(ths) {
     });
 }
 
-var UpdateSer = function () {
+$(function () {
     $("#submit_service_update").on("click", function () {
-
+        var host = [];
+        $("#right_select option").each(function(){
+            host.push($(this).val());
+        });
+        var data = {"name": $("#name").val(),
+                    "port": $("#port").val(),
+                    "host": host,
+                    "memo": $("#memo").val()};
+        console.log(data);
+        $.ajax({
+            url: '/common/service_update/' + $("form").attr("id") + '/',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                $('.msg-error').remove();
+                if(data.status){
+                    var tag = '<div class="col-sm-offset-4"><div class="msg-error">添加成功</div></div>';
+                    $('form').append(tag);
+                }else{
+                    $.each(data.message, function (k, v) {
+                        var tag = '<span class="msg-error">'+v[0].message+'</span>';
+                        $("#"+ k).parent().append(tag);
+                    })
+                }
+            }
+        })
     });
-};
+});
 
 
-AddBusiness();
-AddService();
-BusinessSumbit();
-UpdateSer();
+$(function () {
+    $("#left_mv").on("click", function () {
+        $("#left_select option:selected").each(function(){
+            var tag = "<option value="+$(this).val()+">"+$(this).text()+"</option>";
+            $("#right_select").append(tag);
+            $(this).remove();
+        });
+    });
+    $("#right-mv").on("click", function () {
+        $("#right_select option:selected").each(function(){
+            var tag = "<option value="+$(this).val()+">"+$(this).text()+"</option>";
+            $("#left_select").append(tag);
+            $(this).remove();
+        });
+    })
+});

@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 from assets import models, forms
@@ -9,7 +9,8 @@ from backend.response import BaseResponse
 
 @login_required
 def index(request):
-    return render(request, 'common/index.html')
+    # return render(request, 'common/index.html')
+    return redirect("dashboard")
 
 
 @login_required
@@ -44,7 +45,7 @@ def iframe_host_list(request):
     q = select_q(request, ["idc", "service__id", "status"])
     hosts = models.Host.objects.filter(**q)
     hosts_count = hosts.count()
-    paginator = Paginator(hosts, 5)
+    paginator = Paginator(hosts, 10)
     page = request.GET.get('page')
     try:
         page_obj = paginator.page(page)
@@ -96,18 +97,16 @@ def host_add(request):
 
 
 @login_required
-def host_detail(request):
-    host_id = request.GET.get('id', None)
+def host_detail(request, host_id):
     status = models.Host.status_choices
-    if host_id:
-        host_obj = get_object_or_404(models.Host, id=host_id)
+    host_obj = get_object_or_404(models.Host, id=host_id)
     return render(request, 'assets/host_detail.html', locals())
 
 
 @login_required
-def host_edit(request):
+def host_edit(request, host_id):
+    host_obj = get_object_or_404(models.Host, id=host_id)
     if request.method == 'GET':
-        host_obj = get_object_or_404(models.Host, id=request.GET.get('id'))
         idcs = models.IDC.objects.all()
         business_units = models.BusinessUnit.objects.all()
         services = models.Service.objects.all()
@@ -119,15 +118,13 @@ def host_edit(request):
         return render(request, 'assets/host_edit.html', locals())
     elif request.method == 'POST':
         rep = BaseResponse()
-        host_obj = get_object_or_404(models.Host, id=request.POST.get('id', None))
-
         form = forms.HostEdit(request.POST, instance=host_obj)
         if form.is_valid():
             try:
                 form.save()
                 rep.status = True
             except Exception as e:
-                rep.message = {'msg': [{'message': str(e)}]}
+                rep.message = {'msg-error': [{'message': str(e)}]}
         else:
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)

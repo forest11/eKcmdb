@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^service_list/', views.service_list, name='service_list'),
     url(r'^service_add/', views.service_add, name='service_add'),
     url(r'^service_del/', views.service_del, name='service_del'),
-    url(r'^service_update/(?P<id>\d+)/', views.service_update, name='service_update'),
+    url(r'^service_update/(?P<service_id>\d+)/', views.service_update, name='service_update'),
 ]

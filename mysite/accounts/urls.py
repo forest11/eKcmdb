@@ -14,7 +14,9 @@ urlpatterns = [
     url(r'^user_list/', views.user_list, name='user_list'),
     url(r'^user_add/', views.user_add, name='user_add'),
     url(r'^user_del/', views.user_del, name='user_del'),
-    url(r'^user_update/', views.user_update, name='user_update'),
+    url(r'^user_update/(?P<user_id>\d+)/', views.user_update, name='user_update'),
     url(r'^role_list/', views.role_list, name='role_list'),
+    url(r'^role_add/', views.role_add, name='role_add'),
     url(r'^permission_list/', views.permission_list, name='permission_list'),
+    url(r'^permission_add/', views.permission_add, name='permission_add'),
 ]

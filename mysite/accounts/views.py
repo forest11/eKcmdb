@@ -1,6 +1,6 @@
 import json
 import io
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -52,7 +52,7 @@ def user_logout(request):
 def change_pwd(request):
     if request.method == 'POST':
         rep = BaseResponse()
-        form = forms.ChangePwd(request.POST)
+        form = forms.ChangePwdForm(request.POST)
         if form.is_valid():
             rec_data = form.clean()
             old_password = rec_data['old_password']
@@ -63,6 +63,7 @@ def change_pwd(request):
                 if new_password1 == new_password2:
                     user.set_password(new_password2)
                     user.save()
+                    rep.status = True
                 else:
                     rep.message = {'new_password2': [{'message': '2次输入不一致'}]}
             else:
@@ -160,7 +161,7 @@ def reset_pwd(request):
     if forget_user:
         if request.method == 'POST':
             rep = BaseResponse()
-            form = forms.ResetPwd(request.POST)
+            form = forms.ResetPwdForm(request.POST)
             if form.is_valid():
                 rec_data = form.clean()
                 new_password1 = rec_data['new_password1']
@@ -199,8 +200,37 @@ def user_list(request):
 
 @login_required
 def user_add(request):
+    roles = models.Role.objects.all()
     if request.method == 'POST':
-        pass
+        rep = BaseResponse()
+        # print('------', request.POST.getlist("role[]"))
+        # request.POST["role"] = request.POST.getlist("role[]")
+        # print(request.POST)
+        form = forms.AddOrUpdateUserForm(request.POST)
+        if form.is_valid():
+            rec_data = form.clean()
+            user_obj = models.UserProfile.objects.filter(email=rec_data['email'])
+            if user_obj:
+                rep.message = {'email': [{'message': '用户已注册'}, ]}
+                return HttpResponse(json.dumps(rep.__dict__))
+            else:
+                try:
+                    user_obj = models.UserProfile(email=rec_data['email'],
+                                                  name=rec_data['name'],
+                                                  mobile=rec_data['mobile'],
+                                                  tel=rec_data['tel'],
+                                                  )
+                    user_obj.set_password(rec_data['password'])
+                    user_obj.save()
+                    # user_obj.role.add(rec_data['role'])
+                    user_obj.role.add(1)
+                    rep.status = True
+                except Exception as e:
+                    rep.message = {'msg-error': [{'message': str(e)}]}
+        else:
+            error_dict = form.errors.as_json()
+            rep.message = json.loads(error_dict)
+        return HttpResponse(json.dumps(rep.__dict__))
     return render(request, "accounts/user_add.html", locals())
 
 
@@ -208,7 +238,6 @@ def user_add(request):
 def user_del(request):
     if request.method == 'POST':
         user_id = request.POST.get('id')
-        print(user_id)
         del_user = models.UserProfile.objects.filter(id=user_id).delete()
         if del_user:
             return HttpResponse(204)
@@ -216,16 +245,63 @@ def user_del(request):
 
 
 @login_required
-def user_update(request):
-    return render(request, "accounts/user_add.html", locals())
+def user_update(request, user_id):
+    user_obj = get_object_or_404(models.UserProfile, id=user_id)
+    roles = models.Role.objects.all()
+    if request.method == 'POST':
+        rep = BaseResponse()
+        form = forms.AddOrUpdateUserForm(request.POST)
+        if form.is_valid():
+            rec_data = form.clean()
+            try:
+                # user_obj = models.UserProfile.objects.update(**rec_data)
+                # user_obj.save()
+                rep.status = True
+            except Exception as e:
+                rep.message = {'msg-error': [{'message': str(e)}]}
+        else:
+            error_dict = form.errors.as_json()
+            rep.message = json.loads(error_dict)
+        print("--------",rep.message)
+        return HttpResponse(json.dumps(rep.__dict__))
+    return render(request, "accounts/user_update.html", locals())
 
 
 @login_required
 def role_list(request):
-    print('--------', request.user.role.all())
+    if request.method == 'GET':
+        role_obj = models.Role.objects.all()
+        paginator = Paginator(role_obj, 10)
+        page = request.GET.get('page')
+        try:
+            page_obj = paginator.page(page)
+        except (InvalidPage, PageNotAnInteger):
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        return render(request, "accounts/user_list.html", locals())
+
+
+@login_required
+def role_add(request):
     return render(request, "common/index.html")
 
 
 @login_required
 def permission_list(request):
+    if request.method == 'GET':
+        permission_obj = models.Permission.objects.all()
+        paginator = Paginator(permission_obj, 10)
+        page = request.GET.get('page')
+        try:
+            page_obj = paginator.page(page)
+        except (InvalidPage, PageNotAnInteger):
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        return render(request, "accounts/permission_list.html", locals())
+
+
+@login_required
+def permission_add(request):
     return render(request, "common/index.html")

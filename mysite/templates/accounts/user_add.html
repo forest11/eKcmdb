@@ -12,46 +12,59 @@
                 <div class="ibox-content">
                     <form class="form-horizontal n-validator n-yellow" action="/accounts/user_add/" id="user_add" method="post">
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="sn">Email</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="sn" maxlength="100" name="sn" type="text">
+                            <label class="control-label col-sm-2" for="email">Email</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="email" placeholder="必填" name="email" type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="number">姓名</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="number" maxlength="100" name="number" type="text">
+                            <label class="control-label col-sm-2" for="name">姓名</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="name" placeholder="必填" name="name" type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="qs">用户密码</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="qs" maxlength="100" name="qs" type="text">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">角色</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            <label class="control-label col-sm-2" for="password">用户密码</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="password" placeholder="6-18位" name="password" type="password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">电话</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            <label class="control-label col-sm-2" for="role">角色</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="left_select" name="role-0" multiple="multiple" style="height: 230px;">
+                                    {% for item in roles %}
+                                        <option value={{ item.id }}>{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="control-label col-sm-2 col-lg-2 " for="hostname">座机</label>
-                            <div class=" col-sm-4 col-lg-4">
-                                <input class="form-control" id="hostname" maxlength="100" name="hostname" type="text">
+                            <div class="col-sm-1">
+                                <div style="margin: 40px 0 0 30px;">
+                                    <button class="fa fa-angle-right" id="left_mv" type="button"></button>
+                                </div>
+                                <div style="margin: 40px 0 0 30px;">
+                                    <button class="fa fa-angle-left" id="right-mv" type="button"></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="right_select" name="role" multiple="multiple" style="height: 230px;">
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <span class="msg-error col-sm-offset-3"></span>
+                            <label class="control-label col-sm-2" for="mobile">电话</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="mobile" placeholder="必填" name="mobile" type="text">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-5">
+                            <label class="control-label col-sm-2" for="tel">座机</label>
+                            <div class=" col-sm-4">
+                                <input class="form-control" id="tel" placeholder="选填" name="tel" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-8">
                                 <button class="btn btn-primary" type="button" id="submit_user_add">确定</button>
                             </div>
                         </div>
@@ -61,4 +74,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/accounts/userjs.js"></script>
+    <script src="/static/js/common/common.js"></script>
 {% endblock %}

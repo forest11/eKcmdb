@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">确认密码</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="new_password2" type="password"  name="new_password2">
+                        <input class="form-control" id="new_password2" type="password" name="new_password2">
                         {% if rep.message.new_password2 %}
                             <span class="msg-error">{{ rep.message.new_password2.0.message }}</span>
                         {% endif %}
@@ -40,6 +40,9 @@
                          <button type="submit" class="btn btn-success btn-default btn-block">提交</button>
                     </div>
                 </div>
+                {% if rep.status %}
+                    <div class="col-sm-offset-5 msg-error">修改成功</div>
+                {% endif %}
             </form>
         </div>
     </div>
