@@ -45,23 +45,3 @@ class HostEdit(forms.ModelForm):
             idc = None
         return idc
 
-
-# class HostEdit(forms.Form):
-#     sn = forms.CharField(required=True, error_messages={'required': 'sn不能为空'})
-#     number = forms.CharField(required=False)
-#     qs = forms.CharField(required=False)
-#     hostname = forms.CharField(required=True, error_messages={'required': '主机名不能为空'})
-#     asset_name = forms.CharField(required=False)
-#     os_type = forms.CharField(required=False)
-#     manufactory = forms.CharField(required=False)
-#     raid_type = forms.CharField(required=False)
-#     management_ip = forms.GenericIPAddressField(required=False)
-#     is_virtual = forms.BooleanField(required=False)
-#     parent_host = forms.CharField(required=False)
-#     idc = forms.CharField(required=False)
-#     cabinet = forms.CharField(required=False)
-#     host_cabinet_id = forms.CharField(required=False)
-#     status = forms.CharField(required=False)
-#     buy_date = forms.DateField(required=False)
-#     admin = forms.CharField(required=False)
-#     memo = forms.CharField(required=False)

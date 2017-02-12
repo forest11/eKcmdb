@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/12/15.
  */
-var AddHost = function() {
+$(function() {
     $("#reset_host_add").on("click", function(){
         window.location.reload();
     });
@@ -9,16 +9,16 @@ var AddHost = function() {
     $("#submit_host_add").on("click", function(){
         var data = {};
         $("form input:text").each(function(){
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         $("form select").each(function(){
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         $("form input:checkbox").each(function () {
             data[$(this).attr('name')]=$(this).is(':checked');
         });
         $("form textarea").each(function () {
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         console.log(data);
         $.ajax({
@@ -40,23 +40,24 @@ var AddHost = function() {
             }
         })
     })
-};
+});
 
-var EditHost = function () {
+
+$(function () {
     $("#submit_host_edit").on("click", function(){
         var data = {};
         var host_id = $("form").attr("id");
         $("form input:text").each(function(){
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         $("form select").each(function(){
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         $("form input:checkbox").each(function () {
             data[$(this).attr('name')]=$(this).is(':checked');
         });
         $("form textarea").each(function () {
-            data[$(this).attr('name')]=$(this).val();
+            data[$(this).attr('name')]=$(this).val().trim();
         });
         console.log(data);
         $.ajax({
@@ -79,10 +80,10 @@ var EditHost = function () {
             }
         })
     })
-};
+});
 
 function change_info(ths) {
-    var data = $(ths).attr("name") + "=" + $(ths).val();
+    var data = $(ths).attr("name") + "=" + $(ths).val().trim();
     var IframeUrl = $("#ifrID").attr("src");
     if(IframeUrl.endsWith("iframe_host_list/")){
         document.getElementById('ifrID').src=IframeUrl + "search?" + data;
@@ -90,5 +91,3 @@ function change_info(ths) {
         document.getElementById('ifrID').src=IframeUrl + "&" + data;
     }
 }
-AddHost();
-EditHost();

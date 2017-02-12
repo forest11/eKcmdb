@@ -2,75 +2,73 @@
 
 
 {% block content %}
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-11">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5> 修改服务信息 </h5>
+    <div class="content-tabs">
+        <h3><strong>修改服务信息</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox-content row">
+            <form class="form-horizontal" id="{{ service_obj.id }}" method="post">
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="name">服务名</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="name" name="name" type="text" value="{{ service_obj.name }}"
+                               readonly>
+                    </div>
                 </div>
-            <div class="ibox-content">
-                <form class="form-horizontal n-validator n-yellow" id="{{ service_obj.id }}" method="post">
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="name">服务名</label>
-                        <div class="col-sm-4">
-                            <input class="form-control" id="name"  name="name" type="text" value="{{ service_obj.name }}" readonly>
-                        </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="port">端口</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="port" name="port" type="text" value="{{ service_obj.port }}">
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="port">端口</label>
-                        <div class="col-sm-2">
-                            <input class="form-control" id="port"  name="port" type="text" value="{{ service_obj.port }}">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="host">主机</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="left_select" name="chost" multiple="multiple" style="height: 230px;">
-                                {% for item in hosts %}
-                                    {% if item not in service_host %}
-                                        <option value={{ item.id }}>{{ item.hostname }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-sm-1">
-                            <div style="margin: 40px 0 0 30px;">
-                                <button class="fa fa-angle-right" id="left_mv" type="button"></button>
-                            </div>
-                            <div style="margin: 40px 0 0 30px;">
-                                <button class="fa fa-angle-left" id="right-mv" type="button"></button>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="right_select" name="host" multiple="multiple" style="height: 230px;">
-                                {% for item in service_host %}
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="host">主机</label>
+                    <div class="col-sm-4">
+                        <select class="form-control left_select" id="chost" name="chost" multiple="multiple"
+                                style="height: 230px;">
+                            {% for item in hosts %}
+                                {% if item not in service_host %}
                                     <option value={{ item.id }}>{{ item.hostname }}</option>
-                                {% endfor %}
-                            </select>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <div style="margin: 40px 0 0 30px;">
+                            <button class="fa fa-angle-right" id="left_mv" type="button"></button>
+                        </div>
+                        <div style="margin: 40px 0 0 30px;">
+                            <button class="fa fa-angle-left" id="right-mv" type="button"></button>
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="memo">备注</label>
-                        <div class=" col-sm-9">
-                            <textarea class="form-control" id="memo" rows="5" name="memo" type="text">{{ service_obj.memo }}</textarea>
-                        </div>
+                    <div class="col-sm-4">
+                        <select class="form-control right_select" id="host" name="host" multiple="multiple"
+                                style="height: 230px;">
+                            {% for item in service_host %}
+                                <option value={{ item.id }}>{{ item.hostname }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-5">
-                            <button class="btn btn-primary" type="button" id="submit_service_update"> 提交 </button>
-                        </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="memo">备注</label>
+                    <div class=" col-sm-9">
+                        <textarea class="form-control" id="memo" rows="5" name="memo"
+                                  type="text">{{ service_obj.memo }}</textarea>
                     </div>
-                </form>
-            </div>
-            </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-5">
+                        <button class="btn btn-primary" type="button" id="submit_service_update">提交</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block js %}

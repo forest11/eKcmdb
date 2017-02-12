@@ -9,6 +9,7 @@ register = template.Library()
 
 @register.simple_tag
 def guess_page(current_page, loop_num):
+    """分页"""
     offset = abs(current_page-loop_num)
     if offset < 3:
         if current_page == loop_num:

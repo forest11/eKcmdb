@@ -20,25 +20,25 @@
 </head>
 
 <body class="gray-bg">
-    <div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <h1 class="logo-name">YJ</h1>
+                <h1 class="logo-name">eK</h1>
             </div>
             <h3>欢迎使用易建科技运维平台</h3>
 
-            <form class="m-t" role="form" action="/accounts/login/" method="post">
+            <form class="m-t" role="form" action="" method="post">
                 {% if rep.message.email %}
                     <div class="msg-error">{{ rep.message.email.0.message }}</div>
                 {% endif %}
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="邮箱"  name="email">
+                    <input type="email" class="form-control" placeholder="邮箱" name="email">
                 </div>
                 {% if rep.message.password %}
                     <div class="msg-error">{{ rep.message.password.0.message }}</div>
                 {% endif %}
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="密码"  name="password">
+                    <input type="password" class="form-control" placeholder="密码" name="password">
                 </div>
 {#                <img class="check-img" src="/accounts/check_code/" alt="验证码" onclick="ChangeCode(this);">#}
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>

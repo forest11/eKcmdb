@@ -2,93 +2,91 @@
 
 
 {% block content %}
-<div class="content-tabs">
-    <h3><strong>修改用户信息页</strong></h3>
-</div>
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-10">
-            <div class="ibox float-e-margins">
-                <div class="ibox-content">
-                    <form class="form-horizontal n-validator n-yellow" id={{ user_obj.id }} method="post">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="email">Email</label>
-                            <div class=" col-sm-4">
-                                <input class="form-control" id="email" placeholder="必填" name="email" type="text" readonly value="{{ user_obj.email }}">
-                            </div>
+    <div class="content-tabs">
+        <h3><strong>修改用户信息页</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins row">
+            <div class="ibox-content">
+                <form class="form-horizontal" id="{{ user_obj.id }}" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email">Email</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="email" placeholder="必填" name="email" type="text" readonly
+                                   value="{{ user_obj.email }}">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="name">姓名</label>
-                            <div class=" col-sm-4">
-                                <input class="form-control" id="name" placeholder="必填" name="name" type="text" value="{{ user_obj.name }}">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">姓名</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="name" placeholder="必填" name="name" type="text"
+                                   value="{{ user_obj.name }}">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="password">用户密码</label>
-                            <div class=" col-sm-4">
-                                <input class="form-control" id="password" placeholder="6-18位" name="password" type="password">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="is_active" style="padding-top: 12px;">激活</label>
+                        <div class=" col-sm-2">
+                            {% if user_obj.is_active %}
+                                <input class="form-control" id="is_active" name="is_active" type="checkbox"
+                                       checked="checked">
+                            {% else %}
+                                <input class="form-control" id="is_active" name="is_active" type="checkbox">
+                            {% endif %}
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="is_active" style="padding-top: 12px;">激活</label>
-                            <div class=" col-sm-2">
-                                {% if user_obj.is_active %}
-                                    <input class="form-control" id="is_active" name="is_active" type="checkbox" checked="checked">
-                                {% else %}
-                                    <input class="form-control" id="is_active" name="is_active" type="checkbox">
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="role">角色</label>
-                            <div class="col-sm-3">
-                                <select class="form-control" id="left_select" name="role" multiple="multiple" style="height: 230px;">
-                                    {% for item in roles %}
-                                        {% if item not in user_obj.role.all %}
-                                            <option value={{ item.id }}>{{ item.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-sm-1">
-                                <div style="margin: 40px 0 0 30px;">
-                                    <button class="fa fa-angle-right" id="left_mv" type="button"></button>
-                                </div>
-                                <div style="margin: 40px 0 0 30px;">
-                                    <button class="fa fa-angle-left" id="right-mv" type="button"></button>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <select class="form-control" id="right_select" name="role" multiple="multiple" style="height: 230px;">
-                                    {% for item in user_obj.role.all %}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="role">角色</label>
+                        <div class="col-sm-4">
+                            <select class="form-control left_select" id="role-0" name="role-0" multiple="multiple"
+                                    style="height: 230px;">
+                                {% for item in roles %}
+                                    {% if item not in user_obj.role.all %}
                                         <option value={{ item.id }}>{{ item.name }}</option>
-                                    {% endfor %}
-                                </select>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <div style="margin: 40px 0 0 30px;">
+                                <button class="fa fa-angle-right" id="left_mv" type="button"></button>
+                            </div>
+                            <div style="margin: 40px 0 0 30px;">
+                                <button class="fa fa-angle-left" id="right-mv" type="button"></button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="mobile">电话</label>
-                            <div class=" col-sm-3">
-                                <input class="form-control" id="mobile" placeholder="必填" name="mobile" type="text" value="{{ user_obj.mobile }}">
-                            </div>
+                        <div class="col-sm-4">
+                            <select class="form-control right_select" id="role" name="role" multiple="multiple"
+                                    style="height: 230px;">
+                                {% for item in user_obj.role.all %}
+                                    <option value={{ item.id }}>{{ item.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="tel">座机</label>
-                            <div class=" col-sm-3">
-                                <input class="form-control" id="tel" placeholder="选填" name="tel" type="text" value="{{ user_obj.tel }}">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="mobile">电话</label>
+                        <div class=" col-sm-3">
+                            <input class="form-control" id="mobile" placeholder="必填" name="mobile" type="text"
+                                   value="{{ user_obj.mobile }}">
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-2 col-sm-offset-8">
-                                <button class="btn btn-primary" type="button" id="submit_user_update">确定</button>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="tel">座机</label>
+                        <div class=" col-sm-3">
+                            <input class="form-control" id="tel" placeholder="选填" name="tel" type="text"
+                                   value="{{ user_obj.tel }}">
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-6">
+                            <button class="btn btn-primary" type="button" id="submit_user_update">确定</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block js %}

@@ -214,7 +214,7 @@ class NIC(models.Model):
 
 
 class Manufactory(models.Model):
-    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='制造厂商')
+    name = models.CharField(max_length=64, verbose_name='制造厂商')
     staff = models.CharField(max_length=32, blank=True, null=True, verbose_name='售后联系方式')
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
 
@@ -229,7 +229,7 @@ class Manufactory(models.Model):
 class Service(models.Model):
     host = models.ManyToManyField('Host')
     name = models.CharField(max_length=64, verbose_name='服务名')
-    port = models.IntegerField(blank=True, null=True, verbose_name="端口")
+    port = models.IntegerField(verbose_name="端口")
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
 
     class Meta:
@@ -238,7 +238,7 @@ class Service(models.Model):
         unique_together = ("name", "port")
 
     def __str__(self):
-        return self.name
+        return "%s:%s" % (self.name, self.port)
 
 
 class BusinessUnit(models.Model):

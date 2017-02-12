@@ -6,7 +6,14 @@ from email.mime.text import MIMEText
 from email.utils import formataddr
 
 
-def email(email_list, content, subject="易建科技运维平台-找回密码"):
+def email(email_list, content, subject="eKing科技运维平台-找回密码"):
+    """
+    发送短信
+    :param email_list:
+    :param content:
+    :param subject:
+    :return:
+    """
     msg = MIMEText(content, 'plain', 'utf-8')
     msg['From'] = formataddr(["易建科技运维平台-系统邮件", 'pandonglin@makepolo.com'])
     msg['Subject'] = subject

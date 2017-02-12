@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.CheckAuth.CheckUserAuth',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -62,8 +63,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.session_perm_list',
             ],
         },
     },
@@ -145,3 +146,6 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'accounts.UserProfile'
 
 LOGIN_URL = '/accounts/login/'
+
+
+PUBLIE_URL = ['login', 'logout', 'change_pwd', 'send_msg', 'forget_pwd', 'reset_pwd', 'index', 'dashboard']

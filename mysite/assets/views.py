@@ -6,10 +6,8 @@ from assets import models, forms
 from backend.response import BaseResponse
 
 
-
 @login_required
 def index(request):
-    # return render(request, 'common/index.html')
     return redirect("dashboard")
 
 
@@ -39,11 +37,11 @@ def select_q(request, field_list):
 
 @login_required
 def iframe_host_list(request):
-    hosts_physical = models.Host.objects.filter(is_virtual=False).count()
-    hosts_virtual = models.Host.objects.filter(is_virtual=True).count()
     status = models.Host.status_choices
     q = select_q(request, ["idc", "service__id", "status"])
     hosts = models.Host.objects.filter(**q)
+    hosts_physical = hosts.filter(is_virtual=False).count()
+    hosts_virtual = hosts.filter(is_virtual=True).count()
     hosts_count = hosts.count()
     paginator = Paginator(hosts, 10)
     page = request.GET.get('page')
@@ -164,8 +162,7 @@ def network_add(request):
 
 
 @login_required
-def network_detail(request):
-    network_id = request.GET.get('id', None)
+def network_detail(request, network_id):
     status = models.Device.status_choices
     if network_id:
         network_obj = models.Device.objects.get(id=network_id)
@@ -173,7 +170,7 @@ def network_detail(request):
 
 
 @login_required
-def network_edit(request):
+def network_update(request):
     return render(request, 'assets/network_list.html')
 
 

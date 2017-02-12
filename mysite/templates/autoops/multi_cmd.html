@@ -2,7 +2,7 @@
 
 {% block css %}
 <style>
-     #bind_host_list ul{
+     .bind_host_list ul{
         list-style:none;
     }
 </style>
@@ -18,16 +18,16 @@
             <div class="panel-body">
                 <div class="panel-heading">
                     <h3 class="panel-title">主机列表
-                        <span id="selected_host_count" class="badge badge-primary">0</span>
+                        <span class="badge badge-primary selected_host_count">0</span>
                     </h3>
                 </div>
-                <div id="bind_host_list" class="list-group">
-                    <div type="button" class="btn btn-info col-lg-10" onclick="ToggleHostList(this)">
+                <div class="list-group bind_host_list">
+                    <div type="button" class="btn btn-info col-sm-10" onclick="ToggleHostList(this)">
                         <span class="badge badge-success">{{ request.user.bindhost_set.count }}</span>
                         未分组主机
                     </div>
-                    <ul class="hidden col-lg-12">
-                        {% for bind_host in  request.user.bindhost_set.select_related  %}
+                    <ul class="hidden col-sm-12">
+                        {% for bind_host in  request.user.bindhost_set.select_related %}
                             <li>
                                 <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
                                 {{ bind_host.host.hostname }}({{ bind_host.remote_user.username }})
@@ -35,11 +35,11 @@
                         {% endfor %}
                     </ul>
                     {% for host_group in request.user.hostgroups_set.select_related %}
-                        <div type="button" class="btn btn-success col-lg-10" onclick="ToggleHostList(this)" style="margin-top: 5px;">
+                        <div type="button" class="btn btn-success col-sm-10" onclick="ToggleHostList(this)" style="margin-top: 5px;">
                             <span class="badge badge-success">{{ host_group.bind_hosts.select_related.count }}</span>
                             {{ host_group.name }}
                         </div>
-                        <ul class="hidden col-lg-12">
+                        <ul class="hidden col-sm-12">
                             {% for bind_host in host_group.bind_hosts.select_related %}
                                 <li>
                                     <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
@@ -51,14 +51,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="panel col-md-8">
+        <div class="panel col-md-9">
             <div class="panel-heading">
-                <h3 class="panel-title">命令执行
-                </h3>
+                <h3 class="panel-title">命令执行</h3>
             </div>
             <div class="panel-body">
-             <textarea id="cmd" placeholder="Message" rows="3" class="form-control"></textarea>
+             <textarea id="cmd" placeholder="Message" rows="4" class="form-control"></textarea>
                 {% csrf_token %}
                 <button  style="margin-top: 10px" onclick="PostTask()" class="btn btn-primary pull-right">执行</button>
              <div id="task_result">
@@ -76,14 +74,14 @@
     }
 
     function  AddCounter(ele) {
-        //$("#selected_host_count")
+        //$(".selected_host_count")
         //console.log( $(ele).prop("checked") );
-        var current_counter = parseInt($("#selected_host_count").text());
+        var current_counter = parseInt($(".selected_host_count").text());
         if ($(ele).prop("checked") == true){
             //之前没选
-            $("#selected_host_count").html( current_counter+1);
+            $(".selected_host_count").html( current_counter+1);
         }else {
-            $("#selected_host_count").html( current_counter-1);
+            $(".selected_host_count").html( current_counter-1);
         }
     }
 
@@ -101,7 +99,7 @@
     }
 
     function  PostTask() {
-        var selected_hosts_eles = $("#bind_host_list input:checked");
+        var selected_hosts_eles = $(".bind_host_list input:checked");
         var selected_bind_hosts =[];
         $.each(selected_hosts_eles,function (index,ele) {
             selected_bind_hosts.push(ele.value);

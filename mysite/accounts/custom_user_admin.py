@@ -52,7 +52,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('user info', {'fields': ('name', 'token', 'tel', 'mobile', 'is_active',)}),
-        ('permissions', {'fields': ('is_admin', 'role')}),
+        ('permissions', {'fields': ('is_admin', 'role',)}),
         ('other options', {'classes': ('collapse',),
                            'fields': ('last_login', 'memo',)}),
     )

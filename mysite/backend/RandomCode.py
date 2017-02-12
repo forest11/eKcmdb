@@ -3,6 +3,7 @@
 # __author__ : pandonglin
 import random
 
+
 def random_code(n):
     """
     n位数随机字符串

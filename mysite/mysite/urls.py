@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 
 handler404 = 'accounts.views.response_404_handler'
 
@@ -27,4 +28,5 @@ urlpatterns = [
     url(r'^autoops/', include('autoops.urls')),
     url(r'^monitor/', include('monitor.urls')),
     url(r'^common/', include('common.urls')),
+    url(r'^favicon.ico$', RedirectView.as_view(url=r'static/img/favicon.ico')),
 ]

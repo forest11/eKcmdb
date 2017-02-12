@@ -9,59 +9,30 @@ from common import forms
 
 @login_required
 def business_list(request):
-    if request.method == 'GET':
-        business_obj = models.BusinessUnit.objects.all()
-        paginator = Paginator(business_obj, 10)
-        page = request.GET.get('page')
-        try:
-            page_obj = paginator.page(page)
-        except (InvalidPage, PageNotAnInteger):
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
-        return render(request, "common/business_list.html", locals())
-    elif request.method == 'POST':
-        rep = BaseResponse()
-        form = forms.UpdateBusinessForm(request.POST)
-        if form.is_valid():
-            rec_data = form.clean()
-            service = [ x for x in rec_data["service"].split("-") if x]
-            try:
-                business_obj = models.BusinessUnit.objects.get(id=rec_data["id"])
-                old_service = business_obj.service.all().values_list("name", "port")
-                for item in service:
-                    name, port = item.split(":")
-                    if (name, port) not in old_service:   #业务线新添加服务
-                        business_obj.service.add(models.Service.objects.get(name=name, port=port))
-                for item in old_service:
-                    if "%s:%s" % (item[0], item[1]) not in service:  #业务线删除服务
-                        business_obj.service.remove(models.Service.objects.get(name=item[0], port=item[1]))
-                business_obj.memo = rec_data["memo"]
-                business_obj.save()
-                rep.status = True
-                rep.summary = {
-                    "service": service,
-                    "memo": rec_data["memo"]
-                }
-            except Exception as e:
-                rep.message = {'msg': [{'message': str(e)}]}
-        else:
-            error_dict = form.errors.as_json()
-            rep.message = json.loads(error_dict)
-        return HttpResponse(json.dumps(rep.__dict__))
+    """业务线列表"""
+    business_obj = models.BusinessUnit.objects.all()
+    paginator = Paginator(business_obj, 10)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except (InvalidPage, PageNotAnInteger):
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, "common/business_list.html", locals())
 
 
 @login_required
 def business_add(request):
-    if request.method == 'GET':
-        services = models.Service.objects.all()
-        return render(request, "common/business_add.html", locals())
-    elif request.method == 'POST':
+    """添加业务线"""
+    services = models.Service.objects.all()
+    if request.method == 'POST':
         rep = BaseResponse()
         form = forms.BusinessForm(request.POST)
         if form.is_valid():
             try:
                 form.save()
+                form.save_m2m()
                 rep.status = True
             except Exception as e:
                 rep.message = {'msg': [{'message': str(e)}]}
@@ -69,10 +40,12 @@ def business_add(request):
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)
         return HttpResponse(json.dumps(rep.__dict__))
+    return render(request, "common/business_add.html", locals())
 
 
 @login_required
 def business_del(request):
+    """删除业务线"""
     if request.method == 'POST':
         business_id = request.POST.get('id')
         del_business = models.BusinessUnit.objects.filter(id=business_id).delete()
@@ -82,7 +55,31 @@ def business_del(request):
 
 
 @login_required
+def business_update(request, business_id):
+    """修改业务线"""
+    business_obj = get_object_or_404(models.BusinessUnit, id=business_id)
+    print('-----', business_obj.service.all())
+    services = models.Service.objects.all()
+    if request.method == 'POST':
+        rep = BaseResponse()
+        form = forms.BusinessForm(request.POST, instance=business_obj)
+        if form.is_valid():
+            try:
+                form.save()
+                form.save_m2m()
+                rep.status = True
+            except Exception as e:
+                rep.message = {'msg-error': [{'message': str(e)}]}
+        else:
+            error_dict = form.errors.as_json()
+            rep.message = json.loads(error_dict)
+        return HttpResponse(json.dumps(rep.__dict__))
+    return render(request, "common/business_update.html", locals())
+
+
+@login_required
 def service_list(request):
+    """服务列表"""
     service_obj = models.Service.objects.all()
     paginator = Paginator(service_obj, 10)
     page = request.GET.get('page')
@@ -97,15 +94,15 @@ def service_list(request):
 
 @login_required
 def service_add(request):
-    if request.method == 'GET':
-        hosts = models.Host.objects.all()
-        return render(request, "common/service_add.html", locals())
-    elif request.method == 'POST':
+    """添加服务"""
+    hosts = models.Host.objects.all()
+    if request.method == 'POST':
         rep = BaseResponse()
         form = forms.ServiceForm(request.POST)
         if form.is_valid():
             try:
                 form.save()
+                form.save_m2m()
                 rep.status = True
             except Exception as e:
                 rep.message = {'msg': [{'message': str(e)}]}
@@ -113,10 +110,12 @@ def service_add(request):
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)
         return HttpResponse(json.dumps(rep.__dict__))
+    return render(request, "common/service_add.html", locals())
 
 
 @login_required
 def service_del(request):
+    """删除服务"""
     if request.method == 'POST':
         service_id = request.POST.get('id')
         del_service = models.Service.objects.filter(id=service_id).delete()
@@ -127,40 +126,22 @@ def service_del(request):
 
 @login_required
 def service_update(request, service_id):
+    """修改服务"""
     service_obj = get_object_or_404(models.Service, id=service_id)
-    if request.method == 'GET':
-        hosts = models.Host.objects.all()
-        service_host = service_obj.host.all()
-        return render(request, "common/service_update.html", locals())
-    elif request.method == 'POST':
+    hosts = models.Host.objects.all()
+    service_host = service_obj.host.all()
+    if request.method == 'POST':
         rep = BaseResponse()
-        form = forms.UpdateServiceForm(request.POST)
+        form = forms.ServiceForm(request.POST, instance=service_obj)
         if form.is_valid():
-            rec_data = form.clean()
-            print(request.POST)
-            print("----", rec_data)
-            # service = [x for x in rec_data["service"].split("-") if x]
-            # try:
-            #     business_obj = models.BusinessUnit.objects.get(id=rec_data["id"])
-            #     old_service = business_obj.service.all().values_list("name", "port")
-            #     for item in service:
-            #         name, port = item.split(":")
-            #         if (name, port) not in old_service:  # 业务线新添加服务
-            #             business_obj.service.add(models.Service.objects.get(name=name, port=port))
-            #     for item in old_service:
-            #         if "%s:%s" % (item[0], item[1]) not in service:  # 业务线删除服务
-            #             business_obj.service.remove(models.Service.objects.get(name=item[0], port=item[1]))
-            #     business_obj.memo = rec_data["memo"]
-            #     business_obj.save()
-            #     rep.status = True
-            #     rep.summary = {
-            #         "service": service,
-            #         "memo": rec_data["memo"]
-            #     }
-            # except Exception as e:
-            #     rep.message = {'msg': [{'message': str(e)}]}
+            try:
+                form.save()
+                form.save_m2m()
+                rep.status = True
+            except Exception as e:
+                rep.message = {'msg-error': [{'message': str(e)}]}
         else:
             error_dict = form.errors.as_json()
             rep.message = json.loads(error_dict)
         return HttpResponse(json.dumps(rep.__dict__))
-
+    return render(request, "common/service_update.html", locals())

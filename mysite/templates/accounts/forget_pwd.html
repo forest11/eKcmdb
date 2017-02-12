@@ -33,16 +33,16 @@
         <form class="form-horizontal" action="" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label class="col-sm-3 control-label">邮箱</label>
+                <label class="col-sm-3 control-label" for="email">邮箱</label>
                 <div class="col-sm-9">
-                    <input class="form-control" placeholder="邮箱" type="email"  name="email">
+                    <input class="form-control" placeholder="邮箱" type="email" name="email">
                     {% if rep.message.email %}
                         <span class='msg-error'>{{ rep.message.email.0.message }}</span>
                     {% endif %}
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">验证码</label>
+                <label class="col-sm-3 control-label" for="code">验证码</label>
                 <div class="col-sm-9">
                     <input class="form-control" placeholder="验证码" type="text" name="code">
                     <button id="get_code" type="button" class="btn btn-primary">获取验证码</button>
@@ -62,8 +62,5 @@
 
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/accounts/login.js"></script>
-<script>
-    SendMsg();
-</script>
 </body>
 </html>

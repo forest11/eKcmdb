@@ -15,8 +15,8 @@ urlpatterns = [
     url(r'^host_del/', views.host_del, name='host_del'),
     url(r'^host_update/', views.host_update, name='host_update'),
     url(r'^network_list/', views.network_list, name='network_list'),
-    url(r'^network_detail/', views.network_detail, name='network_detail'),
+    url(r'^network_detail/(?P<network_id>\d+)/', views.network_detail, name='network_detail'),
     url(r'^network_add/', views.network_add, name='network_add'),
-    url(r'^network_edit/', views.network_edit, name='network_edit'),
+    url(r'^network_update/', views.network_update, name='network_update'),
     url(r'^network_del/', views.network_del, name='network_del'),
 ]
