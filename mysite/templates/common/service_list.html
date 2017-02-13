@@ -36,7 +36,7 @@
                                     <td class="text-center">
                                         <a href="/common/service_update/{{ item.id }}/" class="btn btn-xs btn-info"
                                            target="_blank">修改</a>
-                                        <button type="button" class="btn btn-xs btn-danger" onclick="DelSer(this);">删除
+                                        <button type="button" class="btn btn-xs btn-danger demo3">删除
                                         </button>
                                     </td>
                                 </tr>
@@ -58,4 +58,26 @@
 
 {% block js %}
     <script src="/static/js/common/common.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".demo3").click(function(){
+                var id = $(this).parent().parent().attr("id");
+                swal({
+                    title:"您确定要删除该服务吗",
+                    text:"删除后将无法恢复，请谨慎操作！",
+                    type:"warning",
+                    showCancelButton:true,
+                    confirmButtonColor:"#DD6B55",
+                    confirmButtonText:"删除",
+                    closeOnConfirm:false
+                },
+                function(){
+                    DelSer(id);
+                    swal("删除成功！",
+                        "您已经成功删除了该服务",
+                        "success")
+                })
+            })
+        });
+    </script>
 {% endblock %}

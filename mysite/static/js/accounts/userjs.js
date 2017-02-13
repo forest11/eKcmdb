@@ -1,17 +1,19 @@
 /**
  * Created by pandonglin on 2017/1/26.
  */
-function DelUser(ths) {
+function DelUser(user_id) {
     $.ajax({
         url: '/accounts/user_del/',
         type: 'POST',
-        data: {"id": $(ths).parent().parent().attr("id")},
+        data: {"id": user_id},
         dataType: 'json',
         success: function(data){
             if(data==204){
-                $(ths).parent().parent().remove();
+                $("#" + user_id).remove();
             }else{
-                $('#msg-error').text("操作失败")
+                swal("操作失败！",
+                    "用户未删除",
+                    "failed")
             }
         }
     });
@@ -123,17 +125,19 @@ $(function () {
     })
 });
 
-function DelRole(ths){
+function DelRole(role_id){
     $.ajax({
         url: '/accounts/role_del/',
         type: 'POST',
-        data: {"id": $(ths).parent().parent().attr("id")},
+        data: {"id": role_id},
         dataType: 'json',
         success: function(data){
             if(data==204){
-                $(ths).parent().parent().remove();
+                $("#" + role_id).remove();
             }else{
-                $('#msg-error').text("操作失败")
+                swal("操作失败！",
+                    "角色未删除",
+                    "failed")
             }
         }
     });
@@ -210,17 +214,19 @@ $(function () {
     })
 });
 
-function DelPerm(ths){
+function DelPerm(perm_id){
     $.ajax({
         url: '/accounts/permission_del/',
         type: 'POST',
-        data: {"id": $(ths).parent().parent().attr("id")},
+        data: {"id": perm_id},
         dataType: 'json',
         success: function(data){
             if(data==204){
-                $(ths).parent().parent().remove();
+                $("#" + perm_id).remove();
             }else{
-                $('#msg-error').text("操作失败")
+                swal("操作失败！",
+                    "权限未删除",
+                    "failed")
             }
         }
     });

@@ -69,17 +69,19 @@ $(function () {
 });
 
 
-function DelBus(ths) {
+function DelBus(bus_id) {
     $.ajax({
         url: '/common/business_del/',
         type: 'POST',
-        data: {"id": $(ths).parent().parent().attr("id")},
+        data: {"id": bus_id},
         dataType: 'json',
         success: function(data){
             if(data==204){
-                $(ths).parent().parent().remove();
+                $("#" + bus_id).remove();
             }else{
-                $('#msg-error').text("操作失败")
+                swal("操作失败！",
+                    "业务线未删除",
+                    "failed")
             }
         }
     });
@@ -119,17 +121,19 @@ $(function() {
 });
 
 
-function DelSer(ths) {
+function DelSer(ser_id) {
     $.ajax({
         url: '/common/service_del/',
         type: 'POST',
-        data: {"id": $(ths).parent().parent().attr("id")},
+        data: {"id": ser_id},
         dataType: 'json',
         success: function(data){
             if(data==204){
-                $(ths).parent().parent().remove();
+                $("#" + ser_id).remove();
             }else{
-                $('#msg-error').text("操作失败")
+                swal("操作失败！",
+                    "服务未删除",
+                    "failed")
             }
         }
     });
