@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^autoops/', include('autoops.urls')),
     url(r'^monitor/', include('monitor.urls')),
     url(r'^common/', include('common.urls')),
+    url(r'^fortress/', include('fortress.urls')),
     url(r'^favicon.ico$', RedirectView.as_view(url=r'static/img/favicon.ico')),
 ]

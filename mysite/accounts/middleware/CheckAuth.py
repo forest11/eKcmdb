@@ -11,7 +11,7 @@ class CheckUserAuth(MiddlewareMixin):
     def process_request(self, request):
         perm_list = request.session.get('perm_list')
         if perm_list:
-            if request.path != "/favicon.ico" and not request.path.startswith("/admin"):
+            if request.path != "/favicon.ico" and not request.path.startswith("/admin") and not request.path.startswith("/api"):
                 try:
                     cur_url = request.path.split('/')[2]
                     if cur_url not in perm_list and cur_url not in CheckUserAuth.public_url:

@@ -32,3 +32,7 @@ def get_task_result(request):
     task_result_list = list(task_result)
     # return HttpResponse(json.dumps(task_result, default=json_date_handler))
     return HttpResponse(json.dumps(task_result_list))
+
+
+def release_code(request):
+    return render(request, 'common/index.html')

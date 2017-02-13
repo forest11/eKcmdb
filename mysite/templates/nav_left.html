@@ -1,12 +1,12 @@
 <li>
     <a href="/assets/dashboard/">
-        <i class="fa fa-th-large"></i>
+        <i class="fa fa-dashboard"></i>
         <span class="nav-label">仪表盘</span>
     </a>
 </li>
 <li class="userinfo">
     <a href="#">
-        <i class="fa fa-rebel"></i>
+        <i class="fa fa-user"></i>
         <span class="nav-label">用户管理</span>
         <span class="fa arrow"></span>
     </a>
@@ -14,11 +14,6 @@
         <li>
             <a href="/accounts/change_pwd/">修改密码</a>
         </li>
-        {% if "show_message" in request.session.perm_list %}
-            <li>
-                <a href="/accounts/show_message/">show message</a>
-            </li>
-        {% endif %}
         <li>
             <a href="#">用户中心<span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
@@ -68,7 +63,7 @@
 </li>
 <li class="assets">
     <a href="#">
-        <i class="fa fa-rebel"></i>
+        <i class="fa fa-support"></i>
         <span class="nav-label">资产管理</span>
         <span class="fa arrow"></span>
     </a>
@@ -105,9 +100,57 @@
         </li>
     </ul>
 </li>
+<li class="monitor">
+    <a href="#">
+        <i class="fa fa-line-chart"></i>
+        <span class="nav-label">监控</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="/monitor/product-detail/">url监控</a>
+        </li>
+        <li>
+            <a href="#">zabbix</a>
+        </li>
+    </ul>
+</li>
+<li class="autoops">
+    <a href="#">
+        <i class="fa fa-tasks"></i>
+        <span class="nav-label">自动化运维</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        {% if "release_code" in request.session.perm_list %}
+            <li>
+                <a href="/autoops/release_code/">代码发布</a>
+            </li>
+        {% endif %}
+        {% if "multi_cmd" in request.session.perm_list %}
+            <li>
+                <a href="/autoops/multi_cmd/">批量命令</a>
+            </li>
+        {% endif %}
+    </ul>
+</li>
+<li class="fortress">
+    <a href="#">
+        <i class="fa fa-ship"></i>
+        <span class="nav-label">跳板机管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        {% if "show_message" in request.session.perm_list %}
+            <li>
+                <a href="/fortress/show_message/">show message</a>
+            </li>
+        {% endif %}
+    </ul>
+</li>
 <li class="business">
     <a href="#">
-        <i class="fa fa-edit"></i>
+        <i class="fa fa-th-large"></i>
         <span class="nav-label">项目管理</span>
         <span class="fa arrow"></span>
     </a>
@@ -130,32 +173,6 @@
         {% if "service_add" in request.session.perm_list %}
             <li>
                 <a href="/common/service_add/">添加服务</a>
-            </li>
-        {% endif %}
-    </ul>
-</li>
-<li class="monitor">
-    <a href="#">
-        <i class="fa fa-rebel"></i>
-        <span class="nav-label">监控</span>
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level">
-        <li>
-            <a href="/monitor/product-detail/">url监控</a>
-        </li>
-    </ul>
-</li>
-<li class="autoops">
-    <a href="#">
-        <i class="fa fa-rebel"></i>
-        <span class="nav-label">自动化运维</span>
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level">
-        {% if "multi_cmd" in request.session.perm_list %}
-            <li>
-                <a href="/autoops/multi_cmd/">批量命令</a>
             </li>
         {% endif %}
     </ul>

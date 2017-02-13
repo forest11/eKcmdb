@@ -127,26 +127,6 @@ def change_pwd(request):
     return render(request, 'accounts/change_pwd.html', locals())
 
 
-@login_required
-def show_message(request):
-    """
-    用于跳板机登陆认证，暂未使用
-    :param request:
-    :return:
-    """
-    if request.method == 'POST':
-        msg = request.POST.get("msg", "")
-        msg_list = msg.split("-")
-        #输入不为空，分割后为int类型数据，以及所有值不能大于user_key的长度
-        if msg_list and all([i.isdigit() for i in msg_list]) and all(
-                [int(i) < len(request.user.user_key) for i in msg_list]):
-            ret = [request.user.user_key[int(i)] for i in msg_list]
-        else:
-            ret = "输入错误"
-        return HttpResponse(ret)
-    return render(request, 'accounts/show_message.html')
-
-
 def send_msg(request):
     """
     生成对验证码，带大小写，数字，存到数据库中时，全部转成了小写

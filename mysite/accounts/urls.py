@@ -10,7 +10,6 @@ urlpatterns = [
     url(r'^send_msg/', views.send_msg, name='send_msg'),
     url(r'^forget_pwd/', views.forget_pwd, name='forget_pwd'),
     url(r'^reset_pwd/', views.reset_pwd, name='reset_pwd'),
-    url(r'^show_message/', views.show_message, name='show_message'),
     url(r'^user_list/', views.user_list, name='user_list'),
     url(r'^user_add/', views.user_add, name='user_add'),
     url(r'^user_del/', views.user_del, name='user_del'),
