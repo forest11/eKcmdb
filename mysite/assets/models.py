@@ -147,7 +147,7 @@ class RAM(models.Model):
     host = models.ForeignKey('Host', related_name='ram')
     sn = models.CharField(max_length=128, blank=True, null=True, verbose_name='SN号')
     model = models.CharField(max_length=128, verbose_name='型号')
-    slot = models.CharField(max_length=64, verbose_name='插槽')
+    slot = models.CharField(max_length=64, blank=True, null=True, verbose_name='插槽')
     capacity = models.IntegerField('内存大小(MB)')
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
     update_date = models.DateTimeField(blank=True, null=True, verbose_name="更新时间")
@@ -166,7 +166,7 @@ class RAM(models.Model):
 class Disk(models.Model):
     host = models.ForeignKey('Host', related_name='disk')
     sn = models.CharField(max_length=128, blank=True, null=True, verbose_name='SN号')
-    slot = models.CharField(max_length=64, verbose_name='插槽位')
+    slot = models.CharField(max_length=64, blank=True, null=True, verbose_name='插槽位')
     model = models.CharField(max_length=128, blank=True, null=True, verbose_name='磁盘型号')
     capacity = models.FloatField('磁盘容量GB')
     disk_iface_choice = (
@@ -214,7 +214,7 @@ class NIC(models.Model):
 
 
 class Manufactory(models.Model):
-    name = models.CharField(max_length=64, verbose_name='制造厂商')
+    name = models.CharField(max_length=64, unique=True, verbose_name='制造厂商')
     staff = models.CharField(max_length=32, blank=True, null=True, verbose_name='售后联系方式')
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
 

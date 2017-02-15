@@ -24,13 +24,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="is_active" style="padding-top: 12px;">激活</label>
-                        <div class=" col-sm-2">
+                        <label class="control-label col-sm-2" for="is_active">激活</label>
+                        <div class="col-sm-2">
                             {% if user_obj.is_active %}
-                                <input class="form-control" id="is_active" name="is_active" type="checkbox"
-                                       checked="checked">
+                                <input id="is_active" name="is_active" type="checkbox" checked="checked" style="margin-top: 10px;">
                             {% else %}
-                                <input class="form-control" id="is_active" name="is_active" type="checkbox">
+                                <input id="is_active" name="is_active" type="checkbox" style="margin-top: 10px;">
                             {% endif %}
                         </div>
                     </div>

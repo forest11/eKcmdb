@@ -56,7 +56,7 @@ class UserProfile(AbstractBaseUser):
     user_key = models.CharField(max_length=100, default=RandomCode.random_code(100), verbose_name='用户key')
     department = models.CharField(max_length=32, blank=True, null=True, verbose_name='部门')
     tel = models.CharField(max_length=32, blank=True, null=True, verbose_name='座机')
-    mobile = models.CharField(max_length=32, blank=True, null=True, verbose_name='手机')
+    mobile = models.CharField(max_length=32, verbose_name='手机')
     role = models.ManyToManyField('Role')
     memo = models.TextField(blank=True, null=True, verbose_name='备注')
 
