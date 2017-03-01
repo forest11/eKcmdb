@@ -1,5 +1,5 @@
 <li>
-    <a href="/assets/dashboard/">
+    <a href="{% url 'dashboard' %}">
         <i class="fa fa-dashboard"></i>
         <span class="nav-label">仪表盘</span>
     </a>
@@ -12,19 +12,19 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="/accounts/change_pwd/">修改密码</a>
+            <a href="{% url 'change_pwd' %}">修改密码</a>
         </li>
         <li>
             <a href="#">用户中心<span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
                 {% if "user_list" in request.session.perm_list %}
                     <li class="user_list">
-                        <a href="/accounts/user_list/">用户列表</a>
+                        <a href="/{% url 'user_list' %}">用户列表</a>
                     </li>
                 {% endif %}
                 {% if "user_add" in request.session.perm_list %}
                     <li class="user_add">
-                        <a href="/accounts/user_add/">添加用户</a>
+                        <a href="{% url 'user_add' %}">添加用户</a>
                     </li>
                 {% endif %}
             </ul>
@@ -34,12 +34,12 @@
             <ul class="nav nav-third-level">
                 {% if "role_list" in request.session.perm_list %}
                     <li class="role_list">
-                        <a href="/accounts/role_list/">角色列表</a>
+                        <a href="{% url 'role_list' %}">角色列表</a>
                     </li>
                 {% endif %}
                 {% if "role_add" in request.session.perm_list %}
                     <li class="role_add">
-                        <a href="/accounts/role_add/">添加角色</a>
+                        <a href="{% url 'role_add' %}">添加角色</a>
                     </li>
                 {% endif %}
             </ul>
@@ -49,12 +49,12 @@
             <ul class="nav nav-third-level">
                 {% if "permission_list" in request.session.perm_list %}
                     <li class="permission_list">
-                        <a href="/accounts/permission_list/">权限列表</a>
+                        <a href="{% url 'permission_list' %}">权限列表</a>
                     </li>
                 {% endif %}
                 {% if "permission_add" in request.session.perm_list %}
                     <li class="permission_add">
-                        <a href="/accounts/permission_add/">添加权限</a>
+                        <a href="{% url 'permission_add' %}">添加权限</a>
                     </li>
                 {% endif %}
             </ul>
@@ -73,12 +73,12 @@
             <ul class="nav nav-third-level">
                 {% if "host_list" in request.session.perm_list %}
                     <li class="host_list">
-                        <a href="/assets/host_list/">资产列表</a>
+                        <a href="{% url 'host_list' %}">资产列表</a>
                     </li>
                 {% endif %}
                 {% if "host_add" in request.session.perm_list %}
                     <li class="host_add">
-                        <a href="/assets/host_add/">添加主机</a>
+                        <a href="{% url 'host_add' %}">添加主机</a>
                     </li>
                 {% endif %}
             </ul>
@@ -88,12 +88,12 @@
             <ul class="nav nav-third-level">
                 {% if "network_list" in request.session.perm_list %}
                     <li class="network_list">
-                        <a href="/assets/network_list/">设备列表</a>
+                        <a href="{% url 'network_list' %}">设备列表</a>
                     </li>
                 {% endif %}
                 {% if "network_add" in request.session.perm_list %}
                     <li class="network_add">
-                        <a href="/assets/network_add/">添加设备</a>
+                        <a href="{% url 'network_add' %}">添加设备</a>
                     </li>
                 {% endif %}
             </ul>
@@ -108,10 +108,10 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="/monitor/product-detail/">url监控</a>
+            <a href="{% url 'product-detail' %}">url监控</a>
         </li>
         <li>
-            <a href="#">zabbix</a>
+            <a href="{% url 'zabbix' %}">zabbix</a>
         </li>
     </ul>
 </li>
@@ -122,14 +122,31 @@
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
-        {% if "release_code" in request.session.perm_list %}
+        {% if "code_push" in request.session.perm_list %}
             <li>
-                <a href="/autoops/release_code/">代码发布</a>
+                <a href="{% url 'code_push' %}">自动化发布<span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                    {% if "code_submit" in request.session.perm_list %}
+                        <li>
+                            <a href="{% url 'code_submit' %}">提交发布</a>
+                        </li>
+                    {% endif %}
+                    {% if "code_audit" in request.session.perm_list %}
+                        <li>
+                            <a href="{% url 'code_audit' %}">发布审核</a>
+                        </li>
+                    {% endif %}
+                    {% if "code_list" in request.session.perm_list %}
+                        <li>
+                            <a href="{% url 'code_list' %}">发布列表</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </li>
         {% endif %}
         {% if "multi_cmd" in request.session.perm_list %}
             <li>
-                <a href="/autoops/multi_cmd/">批量命令</a>
+                <a href="{% url 'multi_cmd' %}">批量命令</a>
             </li>
         {% endif %}
     </ul>
@@ -143,7 +160,7 @@
     <ul class="nav nav-second-level">
         {% if "show_message" in request.session.perm_list %}
             <li>
-                <a href="/fortress/show_message/">show message</a>
+                <a href="{% url 'show_message' %}">show message</a>
             </li>
         {% endif %}
     </ul>
@@ -157,22 +174,22 @@
     <ul class="nav nav-second-level">
         {% if "business_list" in request.session.perm_list %}
             <li>
-                <a href="/common/business_list/">业务线列表</a>
+                <a href="{% url 'business_list' %}">业务线列表</a>
             </li>
         {% endif %}
         {% if "business_add" in request.session.perm_list %}
             <li>
-                <a href="/common/business_add/">添加业务线</a>
+                <a href="{% url 'business_add' %}">添加业务线</a>
             </li>
         {% endif %}
         {% if "service_list" in request.session.perm_list %}
             <li>
-                <a href="/common/service_list/">服务列表</a>
+                <a href="{% url 'service_list' %}">服务列表</a>
             </li>
         {% endif %}
         {% if "service_add" in request.session.perm_list %}
             <li>
-                <a href="/common/service_add/">添加服务</a>
+                <a href="{% url 'service_add' %}">添加服务</a>
             </li>
         {% endif %}
     </ul>

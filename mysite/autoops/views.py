@@ -34,5 +34,13 @@ def get_task_result(request):
     return HttpResponse(json.dumps(task_result_list))
 
 
-def release_code(request):
+def code_submit(request):
     return render(request, 'common/index.html')
+
+
+def code_audit(request):
+    return render(request, 'common/index.html')
+
+
+def code_list(request):
+    return render(request, 'autoops/code_list.html', locals())

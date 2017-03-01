@@ -23,30 +23,24 @@
                     <table id="host_info" class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="text-center"></th>
-                            <th class="text-center">主机名</th>
                             <th class="text-center">IP</th>
-                            <th class="text-center">SN</th>
-                            <th class="text-center">IDC</th>
+                            <th class="text-center">主机名</th>
                             <th class="text-center">运行服务</th>
                             <th class="text-center">状态</th>
-                            <th class="text-center">厂商</th>
+                            <th class="text-center">IDC</th>
+                            <th class="text-center">虚拟机</th>
                             <th class="text-center">操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for item in page_obj %}
-                            <tr class="gradeX">
+                            <tr class="gradeX" value="{{ item.id }}">
                                 <td class="text-center">
-                                    <input type="checkbox" name="selected" value="{{ item.id }}">
+                                    <a href="/assets/host_detail/{{ item.id }}/" class="select_node" target="_blank">
+                                        {{ item.ip }}
+                                    </a>
                                 </td>
-                                <td class="text-center"><a href="/assets/host_detail/?id={{ item.id }}"
-                                                           class="select_node"
-                                                           target="_blank">{{ item.hostname }}</a>
-                                </td>
-                                <td class="text-center">{% for i in item.nic.all %} {{ i.ipaddress }} {% endfor %}</td>
-                                <td class="text-center">{{ item.sn }}</td>
-                                <td class="text-center">{{ item.idc.name }}</td>
+                                <td class="text-center">{{ item.hostname }}</td>
                                 <td class="text-center">
                                     {% for i in item.service_set.all %}
                                         <span class="btn-xs btn-warning">{{ i.name }}:{{ i.port }}</span>
@@ -63,8 +57,15 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td class="text-center">{{ item.manufactory.name }}</td>
+                                <td class="text-center">{{ item.idc.name }}</td>
                                 <td class="text-center">
+                                    {% if  item.is_virtual %}
+                                        <span>是</span>
+                                    {% else %}
+                                        <span>否</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center col-sm-2">
                                     <a href="/assets/host_detail/{{ item.id }}/" class="btn btn-xs btn-primary"
                                        target="_blank">详情</a>
                                     <a href="/assets/host_edit/{{ item.id }}/" class="btn btn-xs btn-info"
@@ -82,11 +83,7 @@
                     </table>
                     <div class="row">
                         <span id="msg-error" class="msg-error"></span>
-                        <div class="col-sm-6">
-                            <div id="host_list">
-                                <button href="/assets/host_change/" type="button" class="btn btn-primary">批量修改</button>
-                            </div>
-                        </div>
+                        <div class="col-sm-6"></div>
                         {% include 'pagination/cust_pagination.html' %}
                     </div>
                 </div>

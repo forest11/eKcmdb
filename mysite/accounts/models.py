@@ -49,9 +49,9 @@ class UserProfile(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    name = models.CharField(max_length=32, unique=True, verbose_name="姓名")
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False, verbose_name="管理员")
-    name = models.CharField(max_length=32, verbose_name="姓名")
     token = models.CharField(max_length=128, blank=True, null=True, verbose_name='用户token')
     user_key = models.CharField(max_length=100, default=RandomCode.random_code(100), verbose_name='用户key')
     department = models.CharField(max_length=32, blank=True, null=True, verbose_name='部门')

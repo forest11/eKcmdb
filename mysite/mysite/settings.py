@@ -72,7 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'accounts.context_processors.session_perm_list',
+                'accounts.context_processors.global_setting',
             ],
         },
     },
@@ -129,6 +129,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+TOKEN_TIMEOUT = 120   #token超时时间
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -139,7 +141,7 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',   #匿名用户只读权限
-        'rest_framework.permissions.IsAdminUser',
+        # 'rest_framework.permissions.IsAdminUser',
     ],
     'PAGINATE_BY': 10  #分页
 }
@@ -150,3 +152,8 @@ LOGIN_URL = '/accounts/login/'
 
 
 PUBLIE_URL = ['login', 'logout', 'change_pwd', 'send_msg', 'forget_pwd', 'reset_pwd', 'index', 'dashboard']
+
+SMTP_SERVER = 'smtp.163.com'
+SMTP_PORT = 25
+EMAIL_USER = '18210350733@163.com'
+EMAIL_AUTH_CODE = '163com'

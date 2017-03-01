@@ -14,7 +14,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">
-                        <a href="/assets/host_list/">{{ hosts }}</a>
+                        <a href="{% url 'host_list' %}">{{ hosts }}</a>
                     </h1>
                     <div class="stat-percent font-bold text-info"> <i class="fa fa-level-up"></i></div>
                     <small>All host</small>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">
-                        <a href="/accounts/user_list/">{{ users }}</a>
+                        <a href="{% url 'user_list' %}">{{ users }}</a>
                     </h1>
                     <div class="stat-percent font-bold text-success"> <i class="fa fa-bolt"></i></div>
                     <small>All user</small>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">
-                        <a href="/#">xxx</a>
+                        <a href="{% url 'code_list' %}">xxx</a>
                     </h1>
                     <div class="stat-percent font-bold text-success"> <i class="fa fa-bolt"></i></div>
                     <small>xxx</small>

@@ -146,8 +146,8 @@ def send_msg(request):
             counts = models.CheckCode.objects.filter(email=email).count()  #判断邮箱是否存在
             if not counts:   #向此邮箱第1次发送
                 models.CheckCode.objects.create(email=email, code=code.lower(), ctime=current_date)
-                print("当前注册码为:", code)  # 输出当前验证码
-                EmailSend.email(email.split(), code)   #发送验证码到邮箱
+                print("当前code为:", code)  # 输出当前验证码
+                EmailSend.send_mail(email.split(), code, "密码找回")   #发送验证码到邮箱
                 rep.status = True
             else:   #不是第1次发送
                 limit_time = current_date - timezone.timedelta(hours=1)   #1小时前的时间
@@ -162,8 +162,8 @@ def send_msg(request):
                     from django.db.models import F
                     models.CheckCode.objects.filter(email=email).update(code=code.lower(), ctime=current_date,
                                                                         times=F('times') + 1)
-                    print("当前注册码为:", code)  # 输出当前验证码
-                    EmailSend.email(email.split(), code)
+                    print("当前code为:", code)  # 输出当前验证码
+                    EmailSend.send_mail(email.split(), code, "密码找回")
                     rep.status = True
         else:
             rep.summary = '邮箱未注册'

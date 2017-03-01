@@ -11,6 +11,10 @@
                 <div class="text-left col-sm-6 col-sm-offset-2">
                     <table class="table">
                         <tr>
+                            <td class="text-navy">ip</td>
+                            <td>{{ host_obj.ip }}</td>
+                        </tr>
+                        <tr>
                             <td class="text-navy">主机名</td>
                             <td>{{ host_obj.hostname }}</td>
                         </tr>
@@ -19,16 +23,8 @@
                             <td>{{ host_obj.number }} </td>
                         </tr>
                         <tr>
-                            <td class="text-navy">IP</td>
-                            <td>{% for i in host_obj.nic.all %} {{ i.ipaddress }} {% endfor %} </td>
-                        </tr>
-                        <tr>
-                            <td class="text-navy">MAC</td>
-                            <td>{% for i in host_obj.nic.all %} {{ i.macaddress }} {% endfor %}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-navy">子网掩码</td>
-                            <td>{% for i in host_obj.nic.all %} {{ i.netmask }} {% endfor %}</td>
+                            <td class="text-navy">SN</td>
+                            <td>{{ host_obj.sn }}</td>
                         </tr>
                         <tr>
                             <td class="text-navy">远程管理IP</td>
@@ -41,10 +37,6 @@
                                     <span class="btn-xs btn-primary">{{ i.name }}:{{ i.port }}</span>
                                 {% endfor %}
                             </td>
-                        </tr>
-                        <tr>
-                            <td class="text-navy">SN</td>
-                            <td>{{ host_obj.sn }}</td>
                         </tr>
                         <tr>
                             <td class="text-navy">快速服务代码</td>

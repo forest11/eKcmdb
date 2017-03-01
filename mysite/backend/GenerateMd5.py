@@ -7,7 +7,7 @@ import time
 
 def generate_salt_md5(value):
     """
-    对值根据时间加盐生成md5值
+    根据值根据时间加盐生成md5值
     :param value:
     :return:
     """
@@ -19,7 +19,7 @@ def generate_salt_md5(value):
 
 def generate_md5(value):
     """
-    对值生成md5值
+    根据值生成md5值
     :param value:
     :return:
     """

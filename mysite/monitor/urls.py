@@ -6,4 +6,5 @@ from monitor import views
 
 urlpatterns = [
     url(r'^product-detail/', views.product_detail, name='product-detail'),
+    url(r'^zabbix/', views.zabbix, name='zabbix'),
 ]

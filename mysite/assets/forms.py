@@ -6,10 +6,11 @@ from assets import models
 
 
 class HostAdd(forms.Form):
-    sn = forms.CharField(required=True, error_messages={'required': 'sn不能为空'})
+    ip = forms.GenericIPAddressField(required=True, error_messages={'required': 'ip不能为空'})
+    sn = forms.CharField(required=False)
     number = forms.CharField(required=False)
     qs = forms.CharField(required=False)
-    hostname = forms.CharField(required=True, error_messages={'required': '主机名不能为空'})
+    hostname = forms.CharField(required=False)
     asset_name = forms.CharField(required=False)
     manufactory = forms.CharField(required=False)
     management_ip = forms.GenericIPAddressField(required=False)

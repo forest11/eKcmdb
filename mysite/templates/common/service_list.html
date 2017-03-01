@@ -44,10 +44,11 @@
                             </tbody>
                         </table>
                         <div class="row">
+                            <span> 共{{ paginator.count }}条数据</span>
                             <span id="msg-error" class="msg-error"></span>
                             <div class="col-sm-6">
                                 <div id="service_add">
-                                    <a href="/common/service_add/" class="btn btn-primary">添加服务</a>
+                                    <a href="{% url 'service_add' %}" class="btn btn-primary">添加服务</a>
                                 </div>
                             </div>
                             {% include 'pagination/cust_pagination.html' %}

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*— coding: utf-8 -*-
 # __author__ : pandonglin
+import re
 from django import template
 from django.utils.html import format_html
 

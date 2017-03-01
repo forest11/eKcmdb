@@ -14,5 +14,4 @@ class BaseResponse:
         self.status = False
         self.code = StatusCodeEnum.Success
         self.data = None
-        self.summary = None
         self.message = {}

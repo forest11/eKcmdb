@@ -91,3 +91,8 @@ function change_info(ths) {
         document.getElementById('ifrID').src=IframeUrl + "&" + data;
     }
 }
+
+function search_host() {
+    var data = "ip_or_hostname" + "=" + $("#search_input").val().trim();
+    document.getElementById('ifrID').src="/assets/iframe_host_list/search?" + data;
+}

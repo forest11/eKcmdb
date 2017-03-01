@@ -3,21 +3,32 @@
 # __author__ : pandonglin
 import smtplib
 from email.mime.text import MIMEText
-from email.utils import formataddr
+from email.mime.multipart import MIMEMultipart
+from django.conf import settings
 
 
-def email(email_list, content, subject="eKing科技运维平台-找回密码"):
+def send_mail(to_mail, content, subject):
     """
-    发送短信
-    :param email_list:
-    :param content:
+    发送邮件
+    :param to_mail_list:
     :param subject:
+    :param content:
     :return:
     """
-    msg = MIMEText(content, 'plain', 'utf-8')
-    msg['From'] = formataddr(["易建科技运维平台-系统邮件", 'pandonglin@makepolo.com'])
-    msg['Subject'] = subject
-    server = smtplib.SMTP("smtp.makepolo.com", 25)
-    server.login("pandonglin@makepolo.com", "Python-147")
-    server.sendmail('pandonglin@makepolo.com', email_list, msg.as_string())
-    server.quit()
+    me = "<" + settings.EMAIL_USER + ">"
+    body = MIMEText(content)
+    msg = MIMEMultipart()
+    msg['Subject'] = "eking运维平台-%s" % subject
+    msg['From'] = me
+    msg['To'] = ";".join(to_mail)
+    msg.attach(body)
+    try:
+        server = smtplib.SMTP()
+        server.connect(settings.SMTP_SERVER, settings.SMTP_PORT)
+        server.login(settings.EMAIL_USER, settings.EMAIL_AUTH_CODE)
+        server.sendmail(me, to_mail, msg.as_string())
+        server.quit()
+        return True
+    except Exception as e:
+        print(str(e))
+        return False

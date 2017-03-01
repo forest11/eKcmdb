@@ -24,8 +24,9 @@ class Host(models.Model):
         (3, "备用"),
         (4, "未知"),
     )
-    hostname = models.CharField(max_length=64, unique=True, verbose_name="主机名")
-    sn = models.CharField(max_length=64, unique=True, verbose_name="sn")
+    ip = models.GenericIPAddressField(unique=True, verbose_name='IP')
+    hostname = models.CharField(max_length=64, null=True, blank=True, verbose_name="主机名")
+    sn = models.CharField(max_length=64, null=True, blank=True, verbose_name="sn")
     number = models.CharField(max_length=64, null=True, blank=True, verbose_name='资产编号')
     qs = models.CharField(max_length=64, null=True, blank=True, verbose_name="快速服务代码")
     asset_name = models.SmallIntegerField(choices=device_type_choices, default=3, verbose_name='设备名称')
@@ -39,7 +40,7 @@ class Host(models.Model):
     status = models.SmallIntegerField(choices=status_choices, default=0, verbose_name="设备状态")
     is_virtual = models.BooleanField(default=False, verbose_name="虚拟机")
     parent_host = models.ForeignKey('self', related_name='parent_level', null=True, blank=True, verbose_name="宿主机")
-    admin = models.CharField(max_length=32, default="", verbose_name='资产管理员')
+    admin = models.CharField(max_length=32, null=True, blank=True, verbose_name='资产管理员')
     buy_date = models.DateField(null=True, blank=True, verbose_name="购买时间")
     create_date = models.DateTimeField(blank=True, auto_now_add=True, verbose_name="创建时间")
     update_date = models.DateTimeField(blank=True, auto_now=True, verbose_name="最近修改时间")
@@ -53,7 +54,7 @@ class Host(models.Model):
         return "%s sn:%s" % (self.hostname, self.sn)
 
 
-class Device(models.Model):
+class NetDevice(models.Model):
     device_type_choices = (
         (0, '交换机'),
         (1, '路由器'),
@@ -68,12 +69,12 @@ class Device(models.Model):
         (4, "未知"),
     )
     sn = models.CharField(max_length=64, verbose_name="sn")
+    ip = models.GenericIPAddressField(unique=True, verbose_name='IP')
     number = models.CharField(max_length=32, null=True, blank=True, verbose_name='资产编号')
     qs = models.CharField(max_length=64, null=True, blank=True, verbose_name="快速服务代码")
     asset_name = models.CharField(max_length=64, null=True, blank=True, verbose_name='设备名称')
     asset_type = models.SmallIntegerField(choices=device_type_choices, default=0, verbose_name="设备类型")
     manufactory = models.ForeignKey('Manufactory', null=True, blank=True, verbose_name="制造厂商")
-    ip = models.GenericIPAddressField(null=True, blank=True, verbose_name='IP')
     idc = models.ForeignKey('IDC', null=True, blank=True, verbose_name='IDC机房')
     cabinet = models.CharField(max_length=32, null=True, blank=True, verbose_name='机柜号')
     device_cabinet_id = models.CharField(max_length=32, null=True, blank=True, verbose_name='机器位置')
@@ -133,7 +134,6 @@ class CPU(models.Model):
     model = models.CharField(max_length=128, blank=True, null=True, verbose_name='CPU型号')
     cpu_count = models.SmallIntegerField('物理CPU个数')
     cpu_core_count = models.SmallIntegerField('CPU核数')
-    memo = models.TextField(null=True, blank=True, verbose_name='备注')
 
     class Meta:
         verbose_name = 'CPU'
@@ -149,7 +149,6 @@ class RAM(models.Model):
     model = models.CharField(max_length=128, verbose_name='型号')
     slot = models.CharField(max_length=64, blank=True, null=True, verbose_name='插槽')
     capacity = models.IntegerField('内存大小(MB)')
-    memo = models.TextField(blank=True, null=True, verbose_name='备注')
     update_date = models.DateTimeField(blank=True, null=True, verbose_name="更新时间")
 
     auto_create_fields = ['sn', 'slot', 'model', 'capacity']
@@ -176,7 +175,6 @@ class Disk(models.Model):
         ('SSD', 'SSD'),
     )
     iface_type = models.CharField(choices=disk_iface_choice, max_length=64, default='SAS', verbose_name='接口类型')
-    memo = models.TextField(blank=True, null=True, verbose_name='备注')
     update_date = models.DateTimeField(blank=True, null=True, verbose_name="更新时间")
 
     auto_create_fields = ['sn', 'slot', 'model', 'capacity', 'iface_type']
@@ -188,29 +186,6 @@ class Disk(models.Model):
 
     def __str__(self):
         return '资产:%s, 插槽:%s, 容量:%s' % (self.host_id, self.slot, self.capacity)
-
-
-class NIC(models.Model):
-    host = models.ForeignKey('Host', related_name='nic')
-    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='网卡名')
-    slot = models.CharField(max_length=64, blank=True, null=True, verbose_name='插口')
-    macaddress = models.CharField(max_length=64, unique=True, verbose_name='MAC')
-    ipaddress = models.GenericIPAddressField(blank=True, null=True, verbose_name='IP')
-    netmask = models.GenericIPAddressField(blank=True, null=True, verbose_name='子网掩码')
-    create_date = models.DateTimeField(blank=True, auto_now_add=True)
-    update_date = models.DateTimeField(blank=True, null=True, verbose_name="更新时间")
-    memo = models.TextField(blank=True, null=True, verbose_name='备注')
-
-    auto_create_fields = ['name', 'slot', 'sn', 'model', 'macaddress', 'ipaddress', 'netmask', 'bonding']
-
-    class Meta:
-        verbose_name = '网卡'
-        verbose_name_plural = verbose_name
-        unique_together = ("host", "name")
-        # unique_together = ("asset", "macaddress")
-
-    def __str__(self):
-        return '资产:%s, IP:%s' % (self.host_id, self.ipaddress)
 
 
 class Manufactory(models.Model):
