@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'pagination',
     'accounts',
     'assets',
-    'autoops',
-    'fortress',
+    'devops',
 ]
 
 MIDDLEWARE = [

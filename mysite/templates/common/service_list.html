@@ -14,7 +14,7 @@
                             <thead>
                             <tr>
                                 <th class="text-center col-sm-2">服务名</th>
-                                <th class="text-center">主机</th>
+                                <th class="text-center">主机IP</th>
                                 <th class="text-center col-sm-1">端口</th>
                                 <th class="text-center col-sm-2">备注</th>
                                 <th class="text-center col-sm-1">操作</th>
@@ -26,7 +26,7 @@
                                     <td class="text-center">{{ item.name }}</td>
                                     <td class="text-center">
                                         {% for i in item.host.all %}
-                                            <span class="btn-xs btn-default" value="{{ i.id }}">{{ i.hostname }}</span>
+                                            <span class="btn-xs btn-default" value="{{ i.id }}">{{ i.ip }}</span>
                                         {% endfor %}
                                     </td>
                                     <td class="text-center">
