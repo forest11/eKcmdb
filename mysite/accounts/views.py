@@ -4,6 +4,7 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_obj
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.urls import reverse as url_reverse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 from backend.response import BaseResponse
 from backend import CheckCode, EmailSend, RandomCode
@@ -79,7 +80,7 @@ def user_login(request):
                     perm_dict = ret_url_method(list(perm_queryset))
                     perm_list = list(perm_dict.keys())
                     request.session['perm_list'] = perm_list
-                    return HttpResponseRedirect('/assets/index/')
+                    return HttpResponseRedirect(url_reverse('index'))
                 else:
                     rep.message = {'email': [{'message': '账号被禁用'}]}
             else:
@@ -93,7 +94,7 @@ def user_login(request):
 def user_logout(request):
     """用户退出"""
     logout(request)
-    return HttpResponseRedirect('/accounts/login/')
+    return HttpResponseRedirect(url_reverse('login'))
 
 
 @login_required
@@ -231,7 +232,7 @@ def reset_pwd(request):
             return HttpResponse(json.dumps(rep.__dict__))
         return render(request, 'accounts/reset_pwd.html')
     else:
-        return HttpResponseRedirect('/accounts/login/')
+        return HttpResponseRedirect(url_reverse('login'))
 
 
 @login_required

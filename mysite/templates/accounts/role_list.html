@@ -28,7 +28,7 @@
                                         {% endfor %}
                                     </td>
                                     <td class="text-center">
-                                        <a href="/accounts/role_update/{{ item.id }}/" class="btn btn-xs btn-info"
+                                        <a href="{% url 'role_update' item.id %}" class="btn btn-xs btn-info"
                                            target="_blank">修改</a>
                                         <button type="button" class="btn btn-xs btn-danger demo3">删除</button>
                                     </td>

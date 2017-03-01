@@ -55,7 +55,7 @@
                                             {% if item.is_admin %}
                                                 超级管理员
                                             {% else %}
-                                                <a href="/accounts/user_update/{{ item.id }}/"
+                                                <a href="{% url 'user_update' item.id  %}"
                                                    class="btn btn-xs btn-info" target="_blank">修改</a>
                                                 <button type="button" class="btn btn-xs btn-danger demo3">删除</button>
                                             {% endif %}

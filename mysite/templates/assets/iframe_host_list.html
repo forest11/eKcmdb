@@ -36,7 +36,7 @@
                         {% for item in page_obj %}
                             <tr class="gradeX" value="{{ item.id }}">
                                 <td class="text-center">
-                                    <a href="/assets/host_detail/{{ item.id }}/" class="select_node" target="_blank">
+                                    <a href="{% url 'host_detail' item.id %}" class="select_node" target="_blank">
                                         {{ item.ip }}
                                     </a>
                                 </td>
@@ -66,10 +66,8 @@
                                     {% endif %}
                                 </td>
                                 <td class="text-center col-sm-2">
-                                    <a href="/assets/host_detail/{{ item.id }}/" class="btn btn-xs btn-primary"
-                                       target="_blank">详情</a>
-                                    <a href="/assets/host_edit/{{ item.id }}/" class="btn btn-xs btn-info"
-                                       target="_blank">修改</a>
+                                    <a href="{% url 'host_detail' item.id %}" class="btn btn-xs btn-primary" target="_blank">详情</a>
+                                    <a href="{% url 'host_edit' item.id %}" class="btn btn-xs btn-info" target="_blank">修改</a>
                                     <button type="button" id="{{ item.id }}" class="btn btn-xs btn-danger node-edit"
                                             onclick="DelAssets(this);">删除
                                     </button>
