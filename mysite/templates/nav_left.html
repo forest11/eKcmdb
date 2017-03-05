@@ -155,9 +155,9 @@
             <li>
                 <a href="#">自动化发布<span class="fa arrow"></span></a>
                 <ul class="nav nav-third-level">
-                    {% if "code_submit" in request.session.perm_list %}
+                    {% if "code_commit" in request.session.perm_list %}
                         <li>
-                            <a href="{% url 'code_submit' %}">提交发布</a>
+                            <a href="{% url 'code_commit' %}">提交发布</a>
                         </li>
                     {% endif %}
                     {% if "code_audit" in request.session.perm_list %}

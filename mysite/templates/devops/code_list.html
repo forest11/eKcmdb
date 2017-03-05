@@ -27,7 +27,7 @@
 {#                        {% for item in page_obj %}#}
                             <tr class="gradeX" value="{{ item.id }}">
                                 <td class="text-center">
-                                    <a href="{% url 'code_submit' %}" target="_blank">{{ item.id }}1</a>
+                                    <a href="{% url 'code_commit' %}" target="_blank">{{ item.id }}1</a>
                                 </td>
                                 <td class="text-center">{{ item.name }}xx</td>
                                 <td class="text-center">{{ item.introduce }}xxxxx</td>
@@ -37,10 +37,10 @@
                                 <td class="text-center">{{ item.commit_time }}2017-02-17</td>
                                 <td class="text-center" >
                                     {% if item.status == 2 or item.status == 3 %}
-                                        <a href="{% url 'code_submit' %}" class="btn btn-xs btn-primary"
+                                        <a href="{% url 'code_commit' %}" class="btn btn-xs btn-primary"
                                            target="_blank">{{ item.status }}审核中。。</a>
                                     {% else %}
-                                        <a href="{% url 'code_submit' %}" class="btn btn-xs btn-danger"
+                                        <a href="{% url 'code_commit' %}" class="btn btn-xs btn-danger"
                                            target="_blank">{{ item.status }}未知。。</a>
                                     {% endif %}
                                 </td>

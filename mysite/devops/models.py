@@ -11,7 +11,7 @@ class RemoteUser(models.Model):
         (1, 'ssh-key')
     )
     auth_type = models.SmallIntegerField(choices=auth_type_choices, default=0)
-    username = models.CharField(max_length=128)
+    username = models.CharField(max_length=128, verbose_name="远程主机账号")
     password = models.CharField(max_length=256, help_text="如果auth_type选择为ssh-key,那此处就应该是key的路径")
 
     def __str__(self):
@@ -19,16 +19,16 @@ class RemoteUser(models.Model):
 
     class Meta:
         unique_together = ('auth_type', 'username', 'password')
-        verbose_name = "远程用户"
+        verbose_name = "远程主机账号"
         verbose_name_plural = verbose_name
 
 
 class BindHost(models.Model):
     """
-    主机与用户绑定
+    主机与系统账号绑定
     """
     host = models.ForeignKey(Host)
-    user = models.ManyToManyField(UserProfile)
+    user = models.ManyToManyField(UserProfile, related_name="h", blank=True)
     remote_user = models.ForeignKey('RemoteUser')
 
     def __str__(self):
@@ -36,7 +36,7 @@ class BindHost(models.Model):
 
     class Meta:
         unique_together = ('host', 'remote_user')
-        verbose_name = "主机与帐号绑定"
+        verbose_name = "主机与系统账号绑定"
         verbose_name_plural = verbose_name
 
 
@@ -45,9 +45,9 @@ class HostGroups(models.Model):
     主机组
     """
     name = models.CharField(max_length=64, unique=True, verbose_name="名称")
+    user = models.ManyToManyField(UserProfile, related_name="g", blank=True)
     bind_hosts = models.ManyToManyField('BindHost', blank=True)
-    user = models.ManyToManyField(UserProfile)
-    memo = models.CharField(max_length=128, blank=True, null=True)
+    memo = models.CharField(max_length=128, blank=True, null=True, verbose_name="备注")
 
     def __str__(self):
         return self.name
@@ -68,7 +68,7 @@ class Task(models.Model):
     task_type = models.SmallIntegerField(choices=action_choices, verbose_name="执行类型")
     user = models.ForeignKey(UserProfile, verbose_name='堡垒机账号')
     bind_hosts = models.ManyToManyField('BindHost')
-    task_detail = models.CharField(max_length=512)
+    task_detail = models.CharField(max_length=512, verbose_name="任务日志")
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

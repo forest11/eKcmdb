@@ -54,7 +54,7 @@ def get_task_result(request):
     return HttpResponse(json.dumps(task_result_list))
 
 
-def code_submit(request):
+def code_commit(request):
     return render(request, 'common/index.html')
 
 
