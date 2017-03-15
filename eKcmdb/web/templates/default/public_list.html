@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>{{ pagename }}</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins row ">
+            <div class="search-bar"></div>
+            <div class="do-submit">
+                <a id="search_submit" class="btn btn-primary no-radius">
+                    <i class="fa fa-search"></i> 搜索
+                </a>
+            </div>
+            <form class="form-horizontal" action="" method="post">
+                <div id="replace">
+                    <table id="public_table" class="table table-striped table-bordered table-hover">
+                        <thead id="table_head">
+                        <tr></tr>
+                        </thead>
+                        <tbody id="table_body">
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm-5 col-sm-offset-5">
+                            <span id="msg-error" class="msg-error"></span>
+                        </div>
+                        <div class="pull-right">
+                            <ul id="pager" class="pagination pagination-sm no-margin"></ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if json_data_list == '/accounts/permission_json_list.html' %}
+        {% include 'accounts/perm_list.html' %}
+        <script>
+            function updatePermButton(ths) {
+                $.updatePermButton(ths);
+            }
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/default/initpage.js"></script>
+    <script src="/static/js/default/userjs.js"></script>
+    <script>
+        $(function () {
+            $.initHtmlData('{{ json_data_list }}');
+        });
+
+        function ChangePage(page_num) {
+            $.toNextPage(page_num);
+        }
+        $(function(){
+            $(document.body).delegate('.demo3','click',function(){
+                var id = $(this).parent().parent().attr("id");
+                swal({
+                    title:"您确定要删除吗",
+                    text:"删除后将无法恢复，请谨慎操作！",
+                    type:"warning",
+                    showCancelButton:true,
+                    confirmButtonColor:"#DD6B55",
+                    confirmButtonText:"删除",
+                    closeOnConfirm:false
+                },
+                function(){
+                    $.deleteData(id);
+                    swal("删除成功！",
+                        "成功删除",
+                        "success")
+                })
+            })
+        })
+    </script>
+{% endblock %}

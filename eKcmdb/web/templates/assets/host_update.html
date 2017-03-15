@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load utils %}
+
+{% block css %}
+    <style>
+        .datainp {
+            width: 200px;
+            height: 30px;
+            border: 1px #ccc solid;
+        }
+
+        .datep {
+            margin-bottom: 40px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>修改主机页</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins row">
+            <div class="ibox-content">
+                <form class="form-horizontal" id="{{ host_obj.id }}" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="ip">IP</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="ip" name="ip" type="text" value="{{ host_obj.ip }}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="sn">SN</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="sn" name="sn" type="text" value="{{ host_obj.sn }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="number">资产编码</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="number" name="number" type="text"
+                                   value="{{ host_obj.number }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="qs">快速服务代码</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="qs" name="qs" type="text" value="{{ host_obj.qs }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="hostname">主机名</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="hostname" name="hostname" type="text"
+                                   value="{{ host_obj.hostname }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="asset_name">设备名称</label>
+                        <div class=" col-sm-3 col-lg-3">
+                            <select class=" form-control" id="asset_name" name="asset_name">
+                                {% for item in device_types %}
+                                    {% if host_obj.asset_name == item.0 %}
+                                        <option value={{ item.0 }} selected="selected">{{ item.1 }}</option>
+                                    {% else %}
+                                        <option value={{ item.0 }}>{{ item.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="os_type">操作系统</label>
+                        <div class=" col-sm-3 col-lg-3">
+                            <select class=" form-control" id="os_type" name="os_type">
+                                {% for item in os_types %}
+                                    {% if host_obj.os_type == item %}
+                                        <option value={{ item.id }} selected="selected">{{ item }}</option>
+                                    {% else %}
+                                        <option value={{ item.id }}>{{ item }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="manufactory">制造商</label>
+                        <div class=" col-sm-3 col-lg-3">
+                            <select class=" form-control" id="manufactory" name="manufactory">
+                                {% for item in manufactories %}
+                                    {% if host_obj.manufactory == item %}
+                                        <option value={{ item.id }} selected="selected">{{ item.name }}</option>
+                                    {% else %}
+                                        <option value={{ item.id }}>{{ item.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="raid_type">RAID类型</label>
+                        <div class=" col-sm-2 col-lg-2">
+                            <select class=" form-control" id="raid_type" name="raid_type">
+                                {% for item in raid_types %}
+                                    {% if host_obj.raid_type == item.0 %}
+                                        <option value={{ item.0 }} selected="selected">{{ item.1 }}</option>
+                                    {% else %}
+                                        <option value={{ item.0 }}>{{ item.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="management_ip">管理IP</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="management_ip" name="management_ip" type="text"
+                                   value="{{ host_obj.management_ip|make_null }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="idc">IDC机房</label>
+                        <div class=" col-sm-4">
+                            <select class=" form-control" id="idc" name="idc">
+                                {% for item in idcs %}
+                                    {% if host_obj.idc == item %}
+                                        <option value={{ item.id }} selected="selected">{{ item.name }}</option>
+                                    {% else %}
+                                        <option value={{ item.id }}>{{ item.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="cabinet">机柜号</label>
+                        <div class=" col-sm-2">
+                            <input class="form-control" id="cabinet" name="cabinet" type="text"
+                                   value="{{ host_obj.cabinet }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="host_cabinet_id">机器位置</label>
+                        <div class=" col-sm-3">
+                            <input class="form-control" id="host_cabinet_id" name="host_cabinet_id" type="text"
+                                   value="{{ host_obj.host_cabinet_id }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="status">设备状态</label>
+                        <div class=" col-sm-2 col-lg-2">
+                            <select class=" form-control" id="status" name="status">
+                                {% for item in status %}
+                                    {% if host_obj.status == item.0 %}
+                                        <option value={{ item.0 }} selected="selected">{{ item.1 }}</option>
+                                    {% else %}
+                                        <option value={{ item.0 }}>{{ item.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="is_virtual">虚拟机</label>
+                        <div class=" col-sm-1 col-lg-1" style="margin-top: 4px;">
+                            {% if host_obj.is_virtual %}
+                                <input id="is_virtual" name="is_virtual" type="checkbox" checked="checked">
+                            {% else %}
+                                <input id="is_virtual" name="is_virtual" type="checkbox">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="parent_host">宿主机</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="parent_host" name="parent_host" type="text"
+                                   value="{{ host_obj.parent_level.hostname }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="admin">资产管理员</label>
+                        <div class=" col-sm-4">
+                            <input class="form-control" id="admin" name="admin" type="text"
+                                   value="{{ host_obj.admin|make_null }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="buy_date">购买时间</label>
+                        <div class=" col-sm-4">
+                            <input class="datainp" id="buy_date" name="buy_date" type="text" readonly
+                                   value="{{ host_obj.buy_date|date:'Y-m-d' }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="memo">备注</label>
+                        <div class=" col-sm-8">
+                            <textarea class="form-control" id="memo" rows="5" name="memo"
+                                      value="{{ host_obj.memo }}"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-6">
+                            <button class="btn btn-primary" type="button" id="submit_button">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/plugins/jedate/jedate.min.js"></script>
+    <script>
+        $(function () {
+            var id = $('.form-horizontal').attr('id');
+            $.initPage('{{ json_data_list }}' + id + '/');
+        });
+        //jeDate.skin('gray');
+        jeDate({
+            dateCell: "#buy_date",//isinitVal:true,
+            format: "YYYY-MM-DD",
+            isinitVal: true,
+            isTime: false, //isClear:false,
+            minDate: "2000-01-01 00:00:00",
+            maxDate: "2026-01-01 00:00:00"
+        })
+    </script>
+{% endblock %}

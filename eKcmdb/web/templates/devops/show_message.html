@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>跳板机认证页</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins col-sm-6">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="show_message" class="col-sm-3 control-label">请输入验证字串</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="show_message" type="text" onchange="GetMsg();">
+                        </div>
+                        <div class="col-sm-8 col-sm-offset-3">
+                            <span class="msg-error" id="message"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function GetMsg() {
+            var message = $('#show_message').val();
+            $.ajax({
+                url: '/devops/show_message.html',
+                type: 'POST',
+                data: {"msg": message},
+                success: function (data) {
+                    if(data.status) {
+                        $('#message').text("结果字串: " + data.data)
+                    }else{
+                        $('#message').text("输入错误")
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

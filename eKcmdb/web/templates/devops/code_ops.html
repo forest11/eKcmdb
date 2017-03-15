@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link href="/static/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>代码发布</strong></h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div id="wizard">
+                        <h1>发布申请</h1>
+                        <div class="step-content">
+                            <div class="col-sm-12">
+                                <h2>第一步</h2>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                                <p>这是第一步的内容</p>
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" onclick="doNext(this);">完成</button>
+                            </div>
+                        </div>
+                        <h1>灰度环境发布</h1>
+                        <div class="step-content">
+                            <div class="text-center m-t-md">
+                                <h2>第二步</h2>
+                                <p>这是第二步的内容</p>
+                            </div>
+                        </div>
+
+                        <h1>灰度环境测试</h1>
+                        <div class="step-content">
+                            <div class="text-center m-t-md">
+                                <h2>第三步</h2>
+                                <p>这是第三步的内容</p>
+                            </div>
+                        </div>
+
+                        <h1>生产环境发布</h1>
+                        <div class="step-content">
+                            <div class="text-center m-t-md">
+                                <h2>第4步</h2>
+                                <p>这是第4步的内容</p>
+                            </div>
+                        </div>
+
+                        <h1>生产环境测试</h1>
+                        <div class="step-content">
+                            <div class="text-center m-t-md">
+                                <h2>第5步</h2>
+                                <p>这是第5步的内容</p>
+                            </div>
+                        </div>
+
+                        <h1>代码合并</h1>
+                        <div class="step-content">
+                            <div class="text-center m-t-md">
+                                <h2>第5步</h2>
+                                <p>这是第6步的内容</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/plugins/staps/jquery.steps.min.js"></script>
+    <script src="/static/js/default/devops.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#wizard").steps();
+            $.devOpsInit();
+        });
+        function doNext(ths) {
+            $.devOpsDoNext(ths);
+        }
+
+    </script>
+{% endblock %}

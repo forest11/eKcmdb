@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <style>
+        .bind_host_list ul {
+            list-style: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>批量命令页</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="panel col-md-3" style="border-right:1px dashed lightgray ">
+                <div class="panel-body">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">选中主机数量
+                            <span class="badge badge-primary selected_host_count">0</span>
+                        </h3>
+                    </div>
+                    <div class="list-group bind_host_list">
+                        <div type="button" class="btn btn-info col-sm-10" onclick="ToggleHostList(this)">
+                            <span class="badge badge-success">{{ request.user.h.count }}</span>
+                            未分组主机
+                        </div>
+                        <ul class="hidden col-sm-12">
+                            {% for bind_host in  request.user.h.all %}
+                                <li>
+                                    <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
+                                    {{ bind_host.host.hostname }}({{ bind_host.remote_user.username }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% for host_group in request.user.g.all %}
+                            <div type="button" class="btn btn-success col-sm-10" onclick="ToggleHostList(this)"
+                                 style="margin-top: 5px;">
+                                <span class="badge badge-success">{{ host_group.bind_hosts.all.count }}</span>
+                                {{ host_group.name }}
+                            </div>
+                            <ul class="hidden col-sm-12">
+                                {% for bind_host in host_group.bind_hosts.all %}
+                                    <li>
+                                        <input onclick="AddCounter(this)" type="checkbox" value="{{ bind_host.id }}">
+                                        {{ bind_host.host.hostname }}({{ bind_host.remote_user.username }})
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel col-md-9">
+                <div class="panel-heading">
+                    <h3 class="panel-title">命令执行</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea id="cmd" placeholder="执行命令" rows="4" class="form-control"></textarea>
+                    {% csrf_token %}
+                    <div class="row">
+                        <button style="margin-top: 10px" onclick="PostTask()" class="btn btn-primary pull-right">执行
+                        </button>
+                    </div>
+                    <div id="task_result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/default/devops.js"></script>
+    <script>
+        function ToggleHostList(ths) {
+            $(ths).next().toggleClass("hidden");
+        }
+
+        function AddCounter(ths) {
+            $.AddCounter(ths);
+        }
+
+        function PostTask() {
+            $.PostTask();
+        }
+    </script>
+
+{% endblock %}

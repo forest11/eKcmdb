@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>修改密码页</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox float-e-margins col-sm-6">
+                <form class="form-horizontal" action="" method="post">
+                    <div class="form-group">
+                        <label for="old_password" class="col-sm-2 control-label">旧密码</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="old_password" type="password" name="old_password"
+                                   id="old_password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password1" class="col-sm-2 control-label">新密码</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="new_password1" type="password" name="new_password1"
+                                   id="new_password1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password2" class="col-sm-2 control-label">确认密码</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="new_password2" type="password" name="new_password2"
+                                   id="new_password2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-success btn-block" id="update_pwd">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/default/userjs.js"></script>
+{% endblock %}
