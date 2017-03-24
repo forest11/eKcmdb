@@ -11,8 +11,8 @@ def ssh_host_exec_cmd(auth_type, host_ip, host_port, user, passwd_or_key, cmd, *
             s.connect(host_ip, host_port, user, passwd_or_key, timeout=5)
         else:
             # RSA_PRIVATE_KEY_FILE为key的文件路径
-            key = paramiko.RSAKey.from_private_key_file('RSA_PRIVATE_KEY_FILE')
-            s.connect(host_ip, host_port, user, pkey=passwd_or_key, timeout=5)
+            key = paramiko.RSAKey.from_private_key_file(passwd_or_key)
+            s.connect(host_ip, host_port, user, pkey=key, timeout=5)
         if isinstance(args, str):
             cmd = "%s %s" % (cmd, args)
         elif isinstance(args, list):

@@ -6,8 +6,8 @@ import time
 from django.conf import settings
 from django.shortcuts import HttpResponse
 from backend.response import BaseResponse
-from accounts import models
-from backend import GenerateMd5
+from database import models
+from backend.utils import GenerateMd5
 
 
 def get_token(name, timestamp, token):

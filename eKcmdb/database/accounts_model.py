@@ -25,7 +25,7 @@ class Permission(models.Model):
 
     class Meta:
         unique_together = ('code', 'method')
-        verbose_name = "权限"
+        verbose_name = "用户权限"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Role(models.Model):
     perm = models.ManyToManyField('Permission')
 
     class Meta:
-        verbose_name = "角色"
+        verbose_name = "用户角色"
         verbose_name_plural = verbose_name
 
     def __str__(self):

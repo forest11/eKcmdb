@@ -61,8 +61,10 @@
     function submitData() {
 
         $("#submit_button").on("click", function(){
+            $('.msg-error').remove();
 
             var data = {};
+            var objId = $('.form-horizontal').attr('id');
 
             $("form input:text").each(function(){
                 data[$(this).attr('name')]=$(this).val().trim();
@@ -89,14 +91,13 @@
             console.log(data);
 
             $.ajax({
-                url: requestUrl,
+                url: requestUrl + '?id=' + objId,
                 type: 'POST',
                 data: data,
                 dataType: 'json',
                 traditional: true,
 
                 success: function(response){
-                    $('.msg-error').remove();
 
                     if (response.status) {
                         var tag = '<div class="form-group"><div class="col-sm-4 col-sm-offset-6"><div class="msg-error">提交成功</div></div></div>';
@@ -109,6 +110,8 @@
                         $.each(response.message, function (k, v) {
                             var tag = '<span class="msg-error">' + v[0].message + '</span>';
                             if (k == "__all__") {
+                                $('.hr-line-dashed').append(tag)
+                            } else if (k == 'msg-error'){
                                 $('.hr-line-dashed').append(tag)
                             } else {
                                 $("#" + k).parent().append(tag);

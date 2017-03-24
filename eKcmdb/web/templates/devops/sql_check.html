@@ -6,11 +6,22 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content row">
-            <form class="form-horizontal" action="" method="post">
+            <form class="form-horizontal"  action="" method="post">
                 <div class="form-group">
-                    <span class="control-label col-sm-2">执行检查的sql语句:</span>
+                    <label class="control-label col-sm-2" for="name">SQL工单:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="name" placeholder="工单" name="name" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="sql_content">SQL语句:</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" rows="10" id="content" placeholder="sql语句" name="content"
+                        <textarea class="form-control" rows="10" id="sql_content" placeholder="建表要求:
+1)必须有主键,自增列必须是unsigned;
+2)不允许有外键;
+3)字段必须是not null,default xxx,除非有特殊需求(timestamp/datetime默认值为'0000-00-00 00:00:00',平台报错可以忽略,uid没有默认值平台出现报错可以忽略,text/blob字段不能给默认值);
+4)辅助索引名字前缀为'idx_',唯一索引前缀是'uniq_';
+5)存储引擎为Innodb,字符集为utf8;" name="sql_content"
                                   type="text"></textarea>
                     </div>
                 </div>

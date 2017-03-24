@@ -194,8 +194,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="memo">备注</label>
                         <div class=" col-sm-8">
-                            <textarea class="form-control" id="memo" rows="5" name="memo"
-                                      value="{{ host_obj.memo }}"></textarea>
+                            <textarea class="form-control" id="memo" rows="5" name="memo">{{ host_obj.memo }}</textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -214,8 +213,7 @@
     <script src="/static/plugins/jedate/jedate.min.js"></script>
     <script>
         $(function () {
-            var id = $('.form-horizontal').attr('id');
-            $.initPage('{{ json_data_list }}' + id + '/');
+            $.initPage('{{ json_data_list }}');
         });
         //jeDate.skin('gray');
         jeDate({

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link href="/static/css/plugins/jsTree/style.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>{{ pagename }}</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div id="jstree1">
+                    <ul>
+                        {% for item in bus_list %}
+                            <li class="jstree-closed">{{ item.name }}
+                                <ul>
+                                {% for service in item.service.all %}
+                                    <li>{{ service }}
+                                        <ul>
+                                            {% for host in service.host.all %}
+                                                <li data-jstree='{"type":"host"}'>{{ host.ip }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/plugins/jsTree/jstree.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#jstree1").jstree({
+            "core": {
+                "check_callback": true
+            },
+            "plugins": ["types", "dnd"],
+            "types": {
+                "default": {
+                    "icon": "fa fa-folder"
+                },
+                "host": {
+                    "icon": "fa fa-tv host"
+                }
+            }
+        });
+    });
+
+    </script>
+{% endblock %}

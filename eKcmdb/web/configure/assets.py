@@ -64,11 +64,18 @@ class Host(BaseList):
                 'attr': {}
             },
             {
+                'q': 'memo',
+                'title': "备注",
+                'display': 1,
+                'text': {'content': "{n}", 'kwargs': {'n': '@memo'}},
+                'attr': {}
+            },
+            {
                 'q': None,
                 'title': "选项",
                 'display': 1,
                 'text': {
-                    'content': "<a class='btn btn-xs btn-primary' href='/assets/host_detail/{n}.html' target='_blank'>查看详细</a> <a class='btn btn-xs btn-info' href='/assets/host_management/{n}/' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
+                    'content': "<a class='btn btn-xs btn-primary' href='/assets/host_detail.html?id={n}' target='_blank'>查看详细</a> <a class='btn btn-xs btn-info' href='/assets/host_update.html?id={n}' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
                     'kwargs': {'n': '@id'}},
                 'attr': {'class': 'col-sm-2'}
             },

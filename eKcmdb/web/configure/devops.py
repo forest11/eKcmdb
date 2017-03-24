@@ -9,101 +9,6 @@ from django.http.request import QueryDict
 from web.configure.base import BaseList
 
 
-class Business(BaseList):
-    def __init__(self):
-        condition_config = [
-            {'name': 'name', 'text': '业务线', 'condition_type': 'input'},
-            {'name': 'service__name', 'text': '服务名', 'condition_type': 'input'},
-        ]
-
-        table_config = [
-            {
-                'q': 'id',
-                'title': "ID",
-                'display': 1,
-                'text': {'content': "{id}", 'kwargs': {'id': '@id'}},
-                'attr': {}
-            },
-            {
-                'q': 'name',
-                'title': "业务线",
-                'display': 1,
-                'text': {'content': "{n}", 'kwargs': {'n': '@name'}},
-                'attr': {}
-            },
-            {
-                'q': 'service',
-                'title': "服务",
-                'display': 1,
-                'separated': ' ',
-                'text': {'content': "{n}", 'kwargs': {'n': '@@@service_list'}},
-                'attr': {'style': 'color: #2a67bb;'}
-            },
-            {
-                'q': 'memo',
-                'title': "备注",
-                'display': 1,
-                'text': {'content': "{n}", 'kwargs': {'n': '@memo'}},
-                'attr': {}
-            },
-            {
-                'q': None,
-                'title': "选项",
-                'display': 1,
-                'text': {
-                    'content': "<a class='btn btn-xs btn-info' href='/devops/business_management/{n}/' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
-                    'kwargs': {'n': '@id'}},
-                'attr': {'class': 'col-sm-2'}
-            },
-        ]
-        super(Business, self).__init__(condition_config, table_config)
-
-    @property
-    def service_list(self):
-        values = models.Service.objects.only('id', 'name', 'port')
-        result = map(lambda x: {'id': x.id, 'name': '%s:%s' % (x.name, x.port)}, values)
-        return list(result)
-
-    def fetch_business(self, request):
-        response = BaseResponse()
-        try:
-            ret = {}
-            conditions = self.select_condition(request)
-            perm_count = models.BusinessUnit.objects.filter(conditions).count()
-            page_info = PageInfo(request.GET.get('pager', None), perm_count)
-            sql_list = models.BusinessUnit.objects.filter(conditions).values(*self.values_list)
-            bus_list = self.handle_m2m_filed(list(sql_list))[page_info.start:page_info.end]
-            ret['data_list'] = bus_list
-            ret['table_config'] = self.table_config
-            ret['condition_config'] = self.condition_config
-            ret['page_info'] = {
-                "page_str": page_info.pager(),
-                "page_start": page_info.start,
-            }
-            ret['global_dict'] = {
-                'service_list': self.service_list
-            }
-            response.data = ret
-            response.message = '获取成功'
-            response.status = True
-        except Exception as e:
-            response.message = str(e)
-        return response
-
-    @staticmethod
-    def delete_business(request):
-        response = BaseResponse()
-        try:
-            delete_dict = QueryDict(request.body, encoding='utf-8')
-            id_list = delete_dict.getlist('id_list')
-            models.BusinessUnit.objects.filter(id__in=id_list).delete()
-            response.message = '删除成功'
-            response.status = True
-        except Exception as e:
-            response.message = str(e)
-        return response
-
-
 class Service(BaseList):
     def __init__(self):
         condition_config = [
@@ -153,7 +58,7 @@ class Service(BaseList):
                 'title': "选项",
                 'display': 1,
                 'text': {
-                    'content': "<a class='btn btn-xs btn-info' href='/devops/service_management/{n}/' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
+                    'content': "<a class='btn btn-xs btn-info' href='/devops/service_update.html?id={n}' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
                     'kwargs': {'n': '@id'}},
                 'attr': {'class': 'col-sm-2'}
             },

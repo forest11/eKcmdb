@@ -30,3 +30,10 @@ class ServiceForm(forms.ModelForm):
         exclude = ("id",)
 
 
+class SQLCheck(forms.ModelForm):
+    """
+    sql检测
+    """
+    class Meta:
+        model = models.SqlCheck
+        exclude = ("id", "pusher", "sql_result", "exec_time")

@@ -79,7 +79,7 @@ class User(BaseList):
                 'title': "选项",
                 'display': 1,
                 'text': {
-                    'content': "<a class='btn btn-xs btn-info' href='/accounts/user_management/{n}/' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
+                    'content': "<a class='btn btn-xs btn-info' href='/accounts/user_update.html?id={n}' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
                     'kwargs': {'n': '@id'}},
                 'attr': {'class': 'col-sm-2'}
             },
@@ -178,7 +178,7 @@ class Role(BaseList):
                 'title': "选项",
                 'display': 1,
                 'text': {
-                    'content': "<a class='btn btn-xs btn-info' href='/accounts/role_management/{n}/' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
+                    'content': "<a class='btn btn-xs btn-info' href='/accounts/role_update.html?id={n}' target='_blank'><i class='fa fa-paste'></i>编辑</a> <button type='button' class='btn btn-xs btn-danger demo3'><i class='fa fa-warning'></i>删除</a>",
                     'kwargs': {'n': '@id'}},
                 'attr': {'class': 'col-sm-2'}
             },

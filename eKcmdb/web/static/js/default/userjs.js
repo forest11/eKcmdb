@@ -5,12 +5,33 @@
 
 (function (jq) {
 
+        /*
+     CSRF配置
+     */
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    /*
+     全局Ajax中添加请求头X-CSRFToken，用于跨过CSRF验证
+     */
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            }
+        }
+    });
+
     function init() {
 
         /*
         用户登陆
         */
         $("#loginButton").on("click", function(){
+            $('.msg-error').remove();
+
             var data = {
                 'name': $("input[name='name']").val(),
                 'password': $("input[name='password']").val()
@@ -23,7 +44,6 @@
                 dataType: 'json',
 
                 success: function(data){
-                    $('.msg-error').remove();
 
                     if (data.status) {
                         window.location.href = '/assets/index.html';
@@ -46,6 +66,7 @@
         */
 
         $('#update_pwd').on("click", function () {
+            $('.msg-error').remove();
 
             $.ajax({
                 url: "/accounts/change_pwd.html",
@@ -58,7 +79,6 @@
                 dataType: 'json',
 
                 success: function (data) {
-                    $('.msg-error').remove();
 
                     if (data.status) {
                         window.location.href = '/accounts/login.html';
@@ -77,6 +97,7 @@
         密码找回，获取验证码
         */
         $("#get_code").on("click", function(){
+            $('.msg-error').remove();
 
             var email = $("form input[name='email']").val().trim();
             if(email.trim().length == 0){
@@ -100,7 +121,6 @@
                 dataType: 'json',
 
                 success: function(data){
-                    $('.msg-error').remove();
 
                     if (data.status){
                        $('#forget_pwd').removeClass('btn-default').addClass('btn-success');
@@ -164,6 +184,7 @@
          重设密码
          */
         $('#reset_pwd').on("click", function () {
+            $('.msg-error').remove();
 
             $.ajax({
                 url: "/accounts/reset_pwd.html",
@@ -175,7 +196,6 @@
                 dataType: 'json',
 
                 success: function (data) {
-                    $('.msg-error').remove();
                     if (data.status) {
                         window.location.href = '/accounts/login.html';
                     } else {
@@ -193,6 +213,8 @@
          添加用户
          */
         $("#submit_user_add").on("click", function () {
+            $('.msg-error').remove();
+
             var data = {};
             var role = [];
 
@@ -222,7 +244,6 @@
                 dataType: 'json',
 
                 success: function (data) {
-                    $('.msg-error').remove();
                     if (data.status) {
                         var tag = '<div class="form-group"><div class="col-sm-4 col-sm-offset-6"><div class="msg-error">添加成功</div></div></div>';
                         $('.hr-line-dashed').after(tag);
@@ -248,6 +269,7 @@
      */
 
     function updatePermButton(ths) {
+        $('.msg-error').remove();
         var PermId = $(ths).parent().parent().attr("id");
         $(".modal-body input[name='caption']").val($("#" + PermId + " td:eq(1)").text().trim());
         $(".modal-body input[name='code']").val($("#" + PermId + " td:eq(2)").text().trim());
@@ -263,8 +285,10 @@
     */
     function bingPermButton() {
         $(".changePerm").on("click", function () {
-            var PermId = $(".modal-body").attr("permId");
+            $('.msg-error').remove();
+
             var data = {};
+            var PermId = $(".modal-body").attr("permId");
             $(".modal-body input:text").each(function () {
                 data[$(this).attr('name')] = $(this).val().trim();
             });
@@ -272,14 +296,13 @@
             console.log(data);
 
             $.ajax({
-                url: '/accounts/permission_management/' + PermId + '/',
+                url: '/accounts/permission_update.html?id=' + PermId,
                 type: 'POST',
                 data: data,
                 dataType: 'JSON',
                 traditional: true,
 
                 success: function (data) {
-                    $('.msg-error').remove();
 
                     if (data.status) {
                         $(".modal-body").append('<div id="msg-error" class="msg-error">修改成功</div>');

@@ -10,11 +10,12 @@ from django.urls import reverse as url_reverse
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.utils.decorators import method_decorator
 
 from backend.response import BaseResponse
 from backend.utils import CheckCode, FormatUrl, EmailSend, RandomCode
 from backend.form import UserForm
+from backend.auth.AccessAuth import check_auth
 from web.configure import accounts
 from database import models
 
@@ -225,6 +226,7 @@ class UserList(View):
     """
     用户列表页
     """
+    @method_decorator(login_required)
     def get(self, request):
         json_data_list = url_reverse('user_json_list')
         pagename = '用户列表'
@@ -232,11 +234,15 @@ class UserList(View):
 
 
 class UserJsonList(View):
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         obj = accounts.User()
         response = obj.fetch_users(request)
         return JsonResponse(response.__dict__)
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         response = accounts.User.delete_user(request)
         return JsonResponse(response.__dict__)
@@ -246,12 +252,16 @@ class UserAdd(View):
     """
     添加用户
     """
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         json_data_list = url_reverse('user_add')
         roles = models.Role.objects.all()
         departments = models.UserProfile.department_choices
         return render(request, "accounts/user_add.html", locals())
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         rep = BaseResponse()
         form = UserForm.UserForm(request.POST)
@@ -268,17 +278,23 @@ class UserAdd(View):
         return JsonResponse(rep.__dict__)
 
 
-class UserManagement(View):
-    def get(self, request, user_id):
-        json_data_list = '/accounts/user_management/'
+class UserUpdate(View):
+    """用户管理"""
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
+    def get(self, request):
+        user_id = request.GET.get('id')
+        json_data_list = url_reverse('user_update')
         user_obj = get_object_or_404(models.UserProfile, id=user_id)
         roles = models.Role.objects.all()
         departments = models.UserProfile.department_choices
         return render(request, "accounts/user_update.html", locals())
 
-    def post(self, request, user_id):
-        """用户管理"""
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
+    def post(self, request):
         rep = BaseResponse()
+        user_id = request.GET.get('id')
         user_obj = get_object_or_404(models.UserProfile, id=user_id)
         form = UserForm.UpdateUserForm(request.POST, instance=user_obj)
         if form.is_valid():
@@ -298,6 +314,8 @@ class RoleList(View):
     """
     角色列表
     """
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         json_data_list = url_reverse('role_json_list')
         pagename = '角色列表'
@@ -305,11 +323,15 @@ class RoleList(View):
 
 
 class RoleJsonList(View):
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         obj = accounts.Role()
         response = obj.fetch_roles(request)
         return JsonResponse(response.__dict__)
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         response = accounts.Role.delete_role(request)
         return JsonResponse(response.__dict__)
@@ -319,11 +341,15 @@ class RoleAdd(View):
     """
     添加角色
     """
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         json_data_list = url_reverse('role_add')
         permissions = models.Permission.objects.all()
         return render(request, "accounts/role_add.html", locals())
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         rep = BaseResponse()
         form = UserForm.RoleForm(request.POST)
@@ -340,16 +366,21 @@ class RoleAdd(View):
         return JsonResponse(rep.__dict__)
 
 
-class RoleManagement(View):
+class RoleUpdate(View):
     """修改角色"""
-    def get(self, request, role_id):
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
+    def get(self, request):
+        role_id = request.GET.get('id')
         role_obj = get_object_or_404(models.Role, id=role_id)
-        json_data_list = '/accounts/role_management/'
+        json_data_list = url_reverse('role_update')
         permissions = models.Permission.objects.all()
         return render(request, "accounts/role_update.html", locals())
 
-    def post(self, request, role_id):
-        """修改角色"""
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
+    def post(self, request):
+        role_id = request.GET.get('id')
         rep = BaseResponse()
         role_obj = get_object_or_404(models.Role, id=role_id)
         form = UserForm.RoleForm(request.POST, instance=role_obj)
@@ -366,35 +397,45 @@ class RoleManagement(View):
         return JsonResponse(rep.__dict__)
 
 
-class PerList(View):
+class PermList(View):
     """
     权限列表
     """
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         json_data_list = url_reverse('permission_json_list')
         pagename = '权限列表'
         return render(request, 'default/public_list.html', locals())
 
 
-class PerJsonList(View):
+class PermJsonList(View):
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         obj = accounts.Permission()
         response = obj.fetch_perms(request)
         return JsonResponse(response.__dict__)
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         response = accounts.Permission.delete_perm(request)
         return JsonResponse(response.__dict__)
 
 
-class PerAdd(View):
+class PermAdd(View):
     """
     添加权限
     """
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def get(self, request):
         json_data_list = url_reverse('permission_add')
         return render(request, "accounts/permission_add.html", locals())
 
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
     def post(self, request):
         rep = BaseResponse()
         form = UserForm.PermissionForm(request.POST)
@@ -410,11 +451,14 @@ class PerAdd(View):
         return JsonResponse(rep.__dict__)
 
 
-class PerManagement(View):
+class PermUpdate(View):
     """
     更新权限
     """
-    def post(self, request, perm_id):
+    @method_decorator(login_required)
+    @method_decorator(check_auth)
+    def post(self, request):
+        perm_id = request.GET.get('id')
         rep = BaseResponse()
         try:
             perm_obj = models.Permission.objects.get(id=perm_id)

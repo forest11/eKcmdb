@@ -71,8 +71,7 @@
 {% block js %}
     <script>
         $(function () {
-            var id = $('.form-horizontal').attr('id');
-            $.initPage('{{ json_data_list }}' + id + '/');
+            $.initPage('{{ json_data_list }}');
         });
     </script>
 {% endblock %}

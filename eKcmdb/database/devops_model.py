@@ -75,7 +75,7 @@ class Task(models.Model):
         return "%s: %s" % (self.user.name, self.cmd)
 
     class Meta:
-        verbose_name = "任务"
+        verbose_name = "CMD任务"
         verbose_name_plural = verbose_name
 
 
@@ -149,7 +149,7 @@ class Environment(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "环境"
+        verbose_name = "运行环境"
         verbose_name_plural = verbose_name
 
 
@@ -160,8 +160,34 @@ class CodeLog(models.Model):
         return self.id
 
     class Meta:
-        verbose_name = "日志"
+        verbose_name = "发布日志"
         verbose_name_plural = verbose_name
 
 
+class SqlCheck(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name="名称")
+    pusher = models.ForeignKey('UserProfile',  verbose_name="申请人")
+    sql_content = models.TextField(verbose_name="sql语句")
+    sql_result = models.TextField(null=True, blank=True, verbose_name="sql执行结果")
+    exec_time = models.DateTimeField(auto_now_add=True, verbose_name="时间")
 
+    def __str__(self):
+        return self.sql
+
+    class Meta:
+        verbose_name = "SQL检查"
+        verbose_name_plural = verbose_name
+
+
+class UrlCenter(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name="名称")
+    url = models.URLField(verbose_name="名称")
+    memo = models.CharField(max_length=256, verbose_name="说明")
+
+    def __str__(self):
+        return self.name
+
+
+    class Meta:
+        verbose_name = "url管理中心"
+        verbose_name_plural = verbose_name

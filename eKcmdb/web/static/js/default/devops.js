@@ -55,7 +55,8 @@
 
         $("#exec_button").on("click", function () {
             $('#sql-result').children().remove();
-            var dy = '<div class="sk-spinner sk-spinner-three-bounce __web-inspector-hide-shortcut__"> <div class="sk-bounce1"></div><div class="sk-bounce2"></div><div class="sk-bounce3"></div> </div>'
+             $('.msg-error').remove();
+            var dy = '<div class="sk-spinner sk-spinner-three-bounce __web-inspector-hide-shortcut__"> <div class="sk-bounce1"></div><div class="sk-bounce2"></div><div class="sk-bounce3"></div> </div>';
             $("#sql-result").append(dy);
 
             var data = {};
@@ -94,10 +95,19 @@
                 success: function (response) {
                     $("#sql-result").empty();
                     if (response.status) {
-                        var tag = '<span class="control-label col-sm-2">执行结果:</span><div class="col-sm-9"><textarea class="form-control" rows="25" type="text">' + response.data + '</textarea></div>';
+                        var tag = '<span class="control-label col-sm-2">执行结果:</span><div class="col-sm-9"><textarea class="form-control" rows="15" type="text" style="color: #ff0101">' + response.data + '</textarea></div>';
                         $("#sql-result").append(tag);
                     } else {
-                        alert("加载数据错误。。。");
+                        $.each(response.message, function (k, v) {
+                            var tag = '<span class="msg-error">' + v[0].message + '</span>';
+                            if (k == "__all__") {
+                                $('.hr-line-dashed').append(tag)
+                            } else if (k == 'msg-error'){
+                                $('.hr-line-dashed').append(tag)
+                            } else {
+                                $("#" + k).parent().append(tag);
+                            }
+                        })
                     }
                 }
             })
@@ -204,6 +214,7 @@
             }
         });
     }
+
 
     jq.extend({
         'devOpsInit': function (url) {

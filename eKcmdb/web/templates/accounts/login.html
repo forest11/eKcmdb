@@ -28,7 +28,6 @@
             <h3>欢迎使用易建科技运维平台</h3>
 
             <form class="m-t" role="form" action="" method="post">
-                {% csrf_token %}
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="用户名" name="name" id="name">
                 </div>
@@ -44,6 +43,7 @@
         </div>
     </div>
 <script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.cookie.js"></script>
 <script src="/static/js/default/userjs.js"></script>
 </body>
 </html>

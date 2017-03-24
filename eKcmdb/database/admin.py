@@ -1,9 +1,9 @@
 from django.contrib import admin
-from database import models
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from backend.form import UserForm
+from database import models
 
 
 class UserAdmin(BaseUserAdmin):
@@ -72,3 +72,9 @@ admin.site.register(models.BindHost)
 admin.site.register(models.HostGroups)
 admin.site.register(models.Task)
 admin.site.register(models.TaskDetail)
+admin.site.register(models.Code)
+admin.site.register(models.CodeLog)
+admin.site.register(models.Environment)
+admin.site.register(models.SqlCheck)
+admin.site.register(models.UrlCenter)
+

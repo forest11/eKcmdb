@@ -10,16 +10,18 @@ from database import models
 
 
 class MonitorDetail(View):
+
     def get(self, request):
-        pass
+        return render(request, 'default/index.html')
 
     def post(self, request):
-        pass
+        return render(request, 'default/index.html')
 
 
 class ZabbixList(View):
+
     def get(self, request):
-        pass
+        return render(request, 'default/index.html')
 
     def post(self, request):
-        pass
+        return render(request, 'default/index.html')

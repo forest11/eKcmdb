@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load utils %}
+
+{% block content %}
+    <div class="content-tabs">
+        <h3><strong>SQL日志</strong></h3>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div id="vertical-timeline" class="vertical-container light-timeline">
+            {% for item in  logs %}
+                <div class="vertical-timeline-block">
+                    <button class="btn btn-success" type="button">
+                        <i class="fa fa-file-text">&nbsp;{{ item.name }}</i>
+                    </button>
+                    <div class="vertical-timeline-content">
+                        SQL语句:
+                        <pre>{{ item.sql_content }}</pre>
+                        <div class="hiddened" hidden>
+                            检测结果:
+                            <div class="alert alert-danger">
+                                {% for i in  item.sql_result|json_obj %}
+                                    {{ i }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        提交人: {{ item.pusher }}<br>
+                        <span class="vertical-date"><small>{{ item.exec_time }}</small></span>
+                        <button class="btn btn-outline btn-info" onclick="showHidden(this)">更多信息</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="pull-right">
+                    <ul id="pager" class="pagination pagination-sm no-margin">{{ page_info.pager }}</ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/content.min.js"></script>
+    <script>
+        function showHidden(ths) {
+            if ($(ths).hasClass('has_hidden')){
+                $(".hiddened").attr('hidden', true);
+                $(ths).removeClass('has_hidden').text("更多信息");
+            } else {
+                $(".hiddened").attr('hidden', true);
+                $(ths).parent().find(".hiddened").removeAttr('hidden');
+                $(ths).addClass('has_hidden').text("收起");
+            }
+
+        }
+        function ChangePage(page_num) {
+            window.location.href='{% url 'sql_log' %}?pager=' +  page_num;
+        }
+    </script>
+{% endblock %}
